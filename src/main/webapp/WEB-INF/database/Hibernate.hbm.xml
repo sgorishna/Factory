@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <import resource="DataSource.xml"/>
+
+    <tx:annotation-driven/>
+
+    <context:component-scan base-package="com.spec"/>
+
+    <bean id="hibernate4AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.spec.model.Component</value>
+                <value>com.spec.model.Compound</value>
+                <value>com.spec.model.CompoundComponent</value>
+                <value>com.spec.model.CompoundCompound</value>
+                <value>com.spec.model.Product</value>
+                <value>com.spec.model.ProductComponent</value>
+                <value>com.spec.model.ProductCompound</value>
+                <value>com.spec.model.UserRoles</value>
+                <value>com.spec.model.Users</value>
+
+
+            </list>
+        </property>
+        <property name="hibernateProperties">
+
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!--<prop key="hibernate.current_session_context_class">thread</prop>prop-->
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/Factory</prop>
+                <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+
+</beans>

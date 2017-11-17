@@ -1,0 +1,132 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page isELIgnored="false" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+
+    <title>Register new customer</title>
+    <style>
+        <!--
+        Bootstrap core CSS
+
+        -->
+
+        <%@include file="/resources/css/bootstrap.css" %>
+
+        <!--
+        Custom styles for this template
+
+        -->
+        <%@include file="/resources/css/dashboard.css" %>
+
+    </style>
+
+    <script type="text/javascript">
+
+        <%@include file="/resources/js/jquery-1.10.2.js" %>
+        <%@include file="/resources/js/jquery-ui.js" %>
+
+    </script>
+
+    <style>
+
+        <%@include file="/resources/css/jquery-ui.css" %>
+    </style>
+
+    <%--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">--%>
+    <%--<script src="//code.jquery.com/jquery-1.10.2.js"></script>--%>
+    <%--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>--%>
+
+    <script type="text/javascript">
+
+        <%@include file="/resources/js/jqueryAutocomplete.js" %>
+
+    </script>
+
+    <style>
+
+        <%@include file="/resources/css/scrollingForAutocomplete.css" %>
+    </style>
+
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+
+            <img src="../resources/images/main_132x39_grey.png"
+            >
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li>
+                    <jsp:include page="../modules/moduleLogout.jsp"></jsp:include>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-right">
+            </form>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-sidebar">
+                <li>
+                    <a href="${CONTEXT}/home"><fmt:message key="HOME"/> <span class="sr-only">(current)</span></a>
+                </li>
+                <li>
+
+                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li>
+                    <a href="${CONTEXT}/compounds"><fmt:message key="COMPOUNDS"/></a>
+                </li>
+
+                <li>
+                    <a href="${CONTEXT}/components"><fmt:message key="COMPONENTS"/></a>
+                </li>
+
+            </ul>
+
+
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h2 class="sub-header">${compound.name} <fmt:message key="ADD_NEW_COMPOUND"/></h2>
+
+            <ol class="breadcrumb">
+                
+                <li><a href="${CONTEXT}/compoundComposition?id=${compound.id}"><fmt:message key="COMPOUND_COMPOSITION"/></a>
+                </li>
+
+                <li><a href="${CONTEXT}/newCompoundCompound?id=${compound.id}"><fmt:message key="ADD_COMPOUND"/></a></li>
+
+                <li><a href="${CONTEXT}/newCompoundComponent?id=${compound.id}"><fmt:message key="ADD_COMPONENT"/></a>
+                </li>
+
+                <li><a href="${CONTEXT}/compoundCompoundList?id=${compound.id}"><fmt:message key="SHOW_COMPOUNDS"/></a></li>
+
+
+                <li><a href="${CONTEXT}/compoundComponentList?id=${compound.id}"> <fmt:message key="SHOW_COMPONENTS"/> </a>
+                </li>
+
+
+            </ol>
+
+            <jsp:include page="../modules/compound/moduleNewCompoundCompound.jsp"></jsp:include>
+        </div>
+
+
+    </div>
+</div>
+
+
+</body>
+</html>
