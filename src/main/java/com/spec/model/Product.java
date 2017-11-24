@@ -28,6 +28,8 @@ public class Product implements Serializable {
 
     private String name;
 
+    private String code;
+
     @OneToMany(mappedBy = "product")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ProductCompound> compoundsListByIdProduct;

@@ -29,13 +29,21 @@ public class Calculation {
 
     int componentPos;
 
+    String compoundInline;
+    String componentInline;
+
+   // String separator = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+   String separator ="<p style=\"padding-left:40px\">";
+   // String separatorStep = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+   String separatorStep = "<p style=\"padding-left:80px\">";
+
     @Autowired
     public Calculation(Init init) {
 
         this.init = init;
     }
 
-    public double getPorkPMP(Product p) {
+    private double getPorkPMP(Product p) {
 
         double res = PORK_PERCENTAGE;
 
@@ -52,20 +60,20 @@ public class Calculation {
         return res;
     }
 
-    public double getPorkFinishedProduct(double porkPMP) {
+    private double getPorkFinishedProduct(double porkPMP) {
 
         return round(100 / porkPMP * 100);
 
     }
 
-    public void setProductComponentsMBP(Product p, double porkPMB, double porkPercentage) {
+    private void setProductComponentsMBP(Product p, double porkPMB, double porkPercentage) {
 
 
         for (ProductComponent pc : p.getComponentsListByIdProduct()) {
 
             pc.setMixedBowlPercentage(pc.getComponentPercentage() / porkPMB * porkPercentage);
 
-            result.add(new Result(p.getName(), pc.getComponent().getName(), pc.getComponentPercentage(), printDouble(pc.getMixedBowlPercentage()), String.valueOf(position)));
+            result.add(new Result(p.getName(), pc.getComponent().getName(), String.valueOf(pc.getComponentPercentage()), printDouble(pc.getMixedBowlPercentage()), String.valueOf(position)));
 
             position++;
 
@@ -74,16 +82,13 @@ public class Calculation {
 
     }
 
-    public void setProductCompoundsMBP(Product p, double porkPMB, double porkPercentage) {
+    private void setProductCompoundsMBP(Product p, double porkPMB, double porkPercentage) {
 
 
         for (ProductCompound pc : p.getCompoundsListByIdProduct()) {
 
             pc.setMixedBowlPercentage(pc.getCompoundPercentage() / porkPMB * porkPercentage);
 
-            result.add(new Result(p.getName(), pc.getCompound().getName(), pc.getCompoundPercentage(), printDouble(pc.getMixedBowlPercentage()), String.valueOf(position)));
-
-            position++;
 
         }
 
@@ -96,12 +101,10 @@ public class Calculation {
         position = 2;
         double porkPMB = getPorkPMP(product);
 
-        result.add(new Result(product.getName(), "Pork", porkPMB, printDouble(getPorkFinishedProduct(porkPMB)), "1"));
+        result.add(new Result(product.getName(), "Pork", "100.0", printDouble(getPorkFinishedProduct(porkPMB)), "1"));
 
         setProductCompoundsMBP(product, porkPMB, PORK_PERCENTAGE);
-        setProductComponentsMBP(product, porkPMB, PORK_PERCENTAGE);
 
-        position = 2;
         double parentPercentage;
 
         List<ProductCompound> compoundList = product.getCompoundsListByIdProduct();
@@ -110,14 +113,16 @@ public class Calculation {
 
             parentPercentage = prod.getMixedBowlPercentage();
 
+            result.add(new Result(prod.getProduct().getName(), prod.getCompound().getName(), String.valueOf(prod.getCompoundPercentage()), printDouble(prod.getMixedBowlPercentage()), String.valueOf(position)));
             compoundMixBowl(prod.getCompound().getChildByParentId(), parentPercentage, position);
 
             componentPos = compoundPos;
+           componentInline = separator;
             componentMixBowl(prod.getCompound().getComponentListByIdCompound(), parentPercentage, String.valueOf(position));
             position++;
         }
 
-
+        setProductComponentsMBP(product, porkPMB, PORK_PERCENTAGE);
     }
 
 
@@ -125,6 +130,9 @@ public class Calculation {
 
         compoundPos = 1;
         componentPos = 1;
+
+        compoundInline = separator;
+        componentInline = separator+separatorStep;
         double parent = parentPercentage;
 
         /* subcompoundsProcessing */
@@ -134,10 +142,8 @@ public class Calculation {
 
             compound.setMixedBowlPercentage(compound.getChildPercentage() * parent / 100);
 
-            result.add(new Result(compound.getParent().getName(), compound.getChild().getName(), compound.getChildPercentage(), printDouble(compound.getMixedBowlPercentage()), position + "." + compoundPos));
+            result.add(new Result(compound.getParent().getName(),compoundInline+compound.getChild().getName(), compoundInline+String.valueOf(compound.getChildPercentage()), compoundInline+printDouble(compound.getMixedBowlPercentage()), position + "." + compoundPos));
 
-
-//            System.out.println(compound.getParent().getName() + ": Compound: " + compound.getChild().getName() + " " + compound.getChildPercentage() + " " + printDouble(compound.getMixedBowlPercentage()));
 
             while (hasChild(compound.getChild()) != false) {
 
@@ -164,10 +170,9 @@ public class Calculation {
 
             component.setMixedBowlPercentage(component.getComponentPercentage() * parentPercentage / 100);
 
-            result.add(new Result(component.getCompound().getName(), component.getComponent().getName(), component.getComponentPercentage(), printDouble(component.getMixedBowlPercentage()), position + "." + pos));
+            result.add(new Result(component.getCompound().getName(), componentInline+component.getComponent().getName(), componentInline+String.valueOf(component.getComponentPercentage()), componentInline+printDouble(component.getMixedBowlPercentage()), position + "." + pos));
             pos += 1;
-            //  System.out.println(component.getCompound().getName() + ": -----Component: " + component.getComponent().getName() + " " + component.getComponentPercentage() + " " + printDouble(component.getMixedBowlPercentage()));
-            // init.getCompoundComponentService().update(component);
+
         }
 
 
@@ -175,22 +180,28 @@ public class Calculation {
 
     private boolean hasChild(Compound compound) {
 
-        if (!compound.getChildByParentId().isEmpty())
-            return true;
-        else
-
-            return false;
+        return !compound.getChildByParentId().isEmpty();
     }
 
     private double round(double value) {
 
-        return (double) Math.round(value * 1000d) / 1000d;
+        return (double) Math.round(value * 10000d) / 10000d;
     }
 
     private String printDouble(double value) {
 
-        DecimalFormat formatter = new DecimalFormat("0.000");
+      //  return String.valueOf(round(value)).replaceAll("[0]*$", "").replaceAll(".$", "");
 
-        return formatter.format(round(value));
+        DecimalFormat formatter = new DecimalFormat("0.####");
+
+        String result = formatter.format(Double.valueOf(value));
+
+        return result;
+
+//        double prepare =Double.parseDouble(formatter.format(round(value)));
+//
+//        return String.valueOf(prepare).replaceAll("[0]*$", "").replaceAll(".$", "");
+
+       // return formatter.format(round(value));
     }
 }

@@ -38,9 +38,9 @@
 
                         <td><c:out value="${percentage.parent}" /></td>
                         <td><c:out value="${percentage.position}" /></td>
-                        <td><c:out value="${percentage.name}" /></td>
-                        <td><c:out value="${percentage.percentage}" /></td>
-                        <td><c:out value="${percentage.mixBowlPercentage}" /></td>
+                        <td><c:out value="${percentage.name}" escapeXml="false" /></td>
+                        <td><c:out value="${percentage.percentage}" escapeXml="false"/></td>
+                        <td><c:out value="${percentage.mixBowlPercentage}" escapeXml="false" /></td>
 
                     </tr>
                 </c:forEach>

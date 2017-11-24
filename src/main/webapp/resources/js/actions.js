@@ -1,8 +1,4 @@
-function deleteCustomerProfile() {
 
-	return confirm('Are you sure you want to delete profile?');
-	
-}
 
 function deleteProduct() {
 
@@ -43,14 +39,3 @@ function deactivateAccount() {
 	
 }
 
-function activateProfile() {
-
-	return confirm('Are you sure you want activate profile?');
-	
-}
-
-function deactivateProfile() {
-
-	return confirm('Are you sure you want block profile?');
-	
-}

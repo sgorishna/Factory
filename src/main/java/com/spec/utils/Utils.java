@@ -40,18 +40,15 @@ public class Utils {
         result.clear();
         position = 2;
 
-        result.add(new Result(product.getName(), "Pork", 100.0, "1"));
-
-        productCompoundComposition(product);
-        productComponentComposition(product);
-
-        position = 2;
+        result.add(new Result(product.getName(), "Pork", "100.0", "1"));
 
 
         List<ProductCompound> compoundList = product.getCompoundsListByIdProduct();
 
         for (ProductCompound prod : compoundList) {
 
+
+            result.add(new Result(prod.getProduct().getName(), prod.getCompound().getName(), String.valueOf(prod.getCompoundPercentage()), String.valueOf(position)));//new line
             compoundComposition(prod.getCompound().getChildByParentId(), position);
 
             componentPos = compoundPos;
@@ -59,10 +56,10 @@ public class Utils {
             position++;
         }
 
-
+        productComponentComposition(product);//new line
     }
 
-    private void productCompoundComposition(Product p) {
+/*    private void productCompoundComposition(Product p) {
 
 
         for (ProductCompound pc : p.getCompoundsListByIdProduct()) {
@@ -74,15 +71,15 @@ public class Utils {
 
         }
 
-    }
+    }*/
 
-    public void productComponentComposition(Product p) {
+    private void productComponentComposition(Product p) {
 
 
         for (ProductComponent pc : p.getComponentsListByIdProduct()) {
 
 
-            result.add(new Result(p.getName(), pc.getComponent().getName(), pc.getComponentPercentage(), String.valueOf(position)));
+            result.add(new Result(p.getName(), pc.getComponent().getName(), String.valueOf(pc.getComponentPercentage()), String.valueOf(position)));
 
             position++;
 
@@ -111,7 +108,7 @@ public class Utils {
         for (CompoundCompound compound : compounds) {
 
 
-            result.add(new Result(compound.getParent().getName(), compound.getChild().getName(), compound.getChildPercentage(), position + "." + compoundPos));
+            result.add(new Result(compound.getParent().getName(), compound.getChild().getName(), String.valueOf(compound.getChildPercentage()), position + "." + compoundPos));
 
 
             List<CompoundComponent> list = compound.getChild().getComponentListByIdCompound();
@@ -133,7 +130,7 @@ public class Utils {
         for (CompoundCompound compound : compounds) {
 
 
-            result.add(new Result(compound.getParent().getName(), compound.getChild().getName(), compound.getChildPercentage(), String.valueOf(compoundPos)));
+            result.add(new Result(compound.getParent().getName(), compound.getChild().getName(), String.valueOf(compound.getChildPercentage()), String.valueOf(compoundPos)));
 
 
             List<CompoundComponent> list = compound.getChild().getComponentListByIdCompound();
@@ -151,7 +148,7 @@ public class Utils {
         for (CompoundComponent component : components) {
 
 
-            result.add(new Result(component.getCompound().getName(), component.getComponent().getName(), component.getComponentPercentage(), position + "." + pos));
+            result.add(new Result(component.getCompound().getName(), component.getComponent().getName(), String.valueOf(component.getComponentPercentage()), position + "." + pos));
             pos += 1;
 
         }
@@ -165,7 +162,7 @@ public class Utils {
         for (CompoundComponent component : components) {
 
 
-            result.add(new Result(component.getCompound().getName(), component.getComponent().getName(), component.getComponentPercentage(), String.valueOf(pos)));
+            result.add(new Result(component.getCompound().getName(), component.getComponent().getName(), String.valueOf(component.getComponentPercentage()), String.valueOf(pos)));
             pos += 1;
 
         }

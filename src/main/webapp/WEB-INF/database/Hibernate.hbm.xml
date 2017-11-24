@@ -33,7 +33,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
 
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <!--<prop key="hibernate.current_session_context_class">thread</prop>prop-->
+
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/Factory</prop>
                 <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>

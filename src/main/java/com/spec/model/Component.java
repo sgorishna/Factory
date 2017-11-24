@@ -28,6 +28,8 @@ public class Component  implements Serializable {
 
     private String name;
 
+    private String code;
+
     @OneToMany(mappedBy = "component")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<CompoundComponent> compoundsListByIdComponent;

@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Created by Svetik on 08/10/2017.
- */
+
 @org.springframework.stereotype.Component
 @Getter
 @Setter
@@ -17,20 +15,16 @@ public class Result {
 
   private String name;
 
-  private double percentage;
+ // private double percentage;
+    private String percentage;
 
   private String mixBowlPercentage;
 
   private String position;
 
-//  public Result(String parent, String name, double percentage, String mixBowlPercentage){
-//      this.parent = parent;
-//      this.name = name;
-//      this.percentage = percentage;
-//      this.mixBowlPercentage = mixBowlPercentage;
-//  }
 
-    public Result(String parent, String name, double percentage, String mixBowlPercentage, String position){
+
+    public Result(String parent, String name, String percentage, String mixBowlPercentage, String position){
         this.parent = parent;
         this.name = name;
         this.percentage = percentage;
@@ -38,7 +32,15 @@ public class Result {
         this.position = position;
     }
 
-    public Result(String parent, String name, double percentage, String position){
+//    public Result(String parent, String name, String percentage, String mixBowlPercentage, String position){
+//        this.parent = parent;
+//        this.name = name;
+//        this.strPercentage = percentage;
+//        this.mixBowlPercentage = mixBowlPercentage;
+//        this.position = position;
+//    }
+
+    public Result(String parent, String name, String percentage, String position){
         this.parent = parent;
         this.name = name;
         this.percentage = percentage;
