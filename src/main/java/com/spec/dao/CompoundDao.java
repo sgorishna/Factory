@@ -10,5 +10,7 @@ public interface CompoundDao extends GenericDao<Compound> {
 
     List<Compound> autocompleteCompoundName(String name);
 
- 
+    List<Compound> findByCode(String code);
+
+
 }

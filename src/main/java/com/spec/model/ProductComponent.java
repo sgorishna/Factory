@@ -41,7 +41,6 @@ public class ProductComponent implements Serializable {
 
 
 
-
     public ProductComponent(Product product, Component component, double componentPercentage){
 
         this.product = product;

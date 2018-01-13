@@ -26,27 +26,12 @@ public class ComponentDaoImpl extends AbstractGenericDao<com.spec.model.Componen
         return criteria.list();
     }
 
-
-//    private SessionFactory sessionFactory;
-//
-//
-//    public void save(Component c) {
-//
-//        Session session = this.sessionFactory.openSession();
-//        Transaction tx = session.beginTransaction();
-//        session.persist(c);
-//        tx.commit();
-//        session.close();
-//    }
-//    @SuppressWarnings("unchecked")
-//    public List<Component> list() {
-//        Session session = this.sessionFactory.openSession();
-//        List<Component> compList = session.createQuery("from Component").list();
-//
-//        session.close();
-//        return compList;
-//
-//    }
+    @Transactional
+    public List<Component> findByCode(String code) {
+        Criteria criteria = getSession().createCriteria(Component.class);
+        criteria.add(Restrictions.eq("code", code));
+        return criteria.list();
+    }
 
 
 }

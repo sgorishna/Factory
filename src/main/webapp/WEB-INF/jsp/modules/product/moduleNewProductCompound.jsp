@@ -20,10 +20,17 @@
 
         <div class="form-group">
 
-            <label path="name" class="control-label"><fmt:message key="COMPOUND_NAME"/></label>
+            <label path="code" class="control-label"><fmt:message key="COMPOUND_CODE"/></label>
+
+
+            <input type="text" id="code" class="form-control" name="code"
+                   readonly="readonly" />
+
+
+            <label path="name" class="control-label" ><fmt:message key="COMPOUND_NAME"/></label>
 
             <input type="text" id="compoundName" class="form-control" name="name" placeholder="Input name"
-                   required="required"/>
+                   required="required" />
 
             <label class="control-label"><fmt:message key="PERCENTAGE"/></label>
 

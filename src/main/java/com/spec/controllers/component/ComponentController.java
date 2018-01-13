@@ -4,7 +4,8 @@ import com.spec.controllers.AbstractController;
 import com.spec.exceptions.InvalidDataException;
 import com.spec.model.Component;
 import com.spec.service.ComponentService;
-import com.spec.utils.Utils;
+import com.spec.utils.Composition;
+import com.spec.utils.WebappConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,7 @@ public class ComponentController extends AbstractController {
 
 
     @Autowired
-    private Utils utils;
+    private Composition composition;
 
 
     @Autowired
@@ -49,6 +50,7 @@ public class ComponentController extends AbstractController {
     public String newComponent(Model model) {
 
         model.addAttribute("component", new Component());
+        model.addAttribute("allergens", WebappConstants.allergens);
         return "component/newComponent";
 
     }
@@ -71,20 +73,21 @@ public class ComponentController extends AbstractController {
 
     }
 
-    @RequestMapping(value = "/renameComponent", method = RequestMethod.GET)
-    public String renameComponent(@RequestParam(value = "id") int id, Model model) {
+    @RequestMapping(value = "/updateComponent", method = RequestMethod.GET)
+    public String updateComponent(@RequestParam(value = "id") int id, Model model) {
 
         Component component = componentService.findById(id);
         model.addAttribute("component", component);
+        model.addAttribute("allergens", WebappConstants.allergens);
 
 
-        return "component/renameComponent";
+        return "component/updateComponent";
 
 
     }
 
-    @RequestMapping(value = "/renameComponent", method = RequestMethod.POST)
-    public String renameComponent(@ModelAttribute("component") Component component, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/updateComponent", method = RequestMethod.POST)
+    public String updateComponent(@ModelAttribute("component") Component component, RedirectAttributes redirectAttributes) {
 
         try {
             componentService.update(component);
@@ -96,7 +99,7 @@ public class ComponentController extends AbstractController {
             redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
 
 
-            return "redirect:renameComponent?id=" + component.getId();
+            return "redirect:updateComponent?id=" + component.getId();
         }
 
 
@@ -105,6 +108,7 @@ public class ComponentController extends AbstractController {
 
     @RequestMapping(value = "/checkComponentName", method = RequestMethod.GET)
     public String checkComponentName(@RequestParam(value = "name") String name, Model model) {
+
 
         if (!componentService.findByName(name).isEmpty()) {
 
@@ -115,6 +119,47 @@ public class ComponentController extends AbstractController {
 
 
         return "component/checkName";
+
+    }
+
+    @RequestMapping(value = "/checkComponentCode", method = RequestMethod.GET)
+    public String checkComponentCode(@RequestParam(value = "code") String code, Model model) {
+
+
+        if (!componentService.findByCode(code).isEmpty()) {
+
+            model.addAttribute("taken", "Code already exists in system");
+        } else {
+            model.addAttribute("available", "Available");
+        }
+
+
+        return "component/checkCode";
+
+    }
+
+    @RequestMapping(value = "/findCodeByComponentName", method = RequestMethod.GET)
+    public String findCodeByComponentName(@RequestParam(value = "name") String name, Model model) {
+
+        List<Component> с = componentService.findByName(name);
+
+        if (!с.isEmpty()) {
+
+            String code = с.get(0).getCode();
+
+            if (null != code) {
+
+                model.addAttribute("code", code);
+            } else {
+                model.addAttribute("no_code", "NO CODE");
+            }
+
+        } else {
+            model.addAttribute("no_code", "NO CODE");
+        }
+
+
+        return "component/findCode";
 
     }
 

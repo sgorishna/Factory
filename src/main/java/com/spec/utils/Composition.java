@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Component
 @Getter
-public class Utils {
+public class Composition {
 
 
     private final Init init;
@@ -29,7 +29,7 @@ public class Utils {
     int componentPos;
 
     @Autowired
-    public Utils(Init init) {
+    public Composition(Init init) {
 
         this.init = init;
     }

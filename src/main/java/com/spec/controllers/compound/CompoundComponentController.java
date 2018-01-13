@@ -61,11 +61,25 @@ public class CompoundComponentController extends AbstractController {
     }
 
     @RequestMapping(value = "/newCompoundComponent", method = RequestMethod.POST)
-    public String newCompoundComponent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, RedirectAttributes redirectAttributes) {
+    public String newCompoundComponent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage,  @RequestParam(value = "code") String code, RedirectAttributes redirectAttributes) {
 
         CompoundComponent compoundComponent = new CompoundComponent();
 
-        if (!componentService.findByName(name).isEmpty()) {
+        if (!code.equals("N/A")) {
+
+            compoundComponent.setCompound(compoundService.findById(id));
+            compoundComponent.setComponent(componentService.findByCode(code).get(0));
+            compoundComponent.setComponentPercentage(percentage);
+
+            try {
+                service.save(compoundComponent);
+            } catch (InvalidDataException e) {
+                redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
+
+                return "redirect:newCompoundCompound?id=" + id;
+            }
+
+        } else  if (!componentService.findByName(name).isEmpty()) {
             compoundComponent.setCompound(compoundService.findById(id));
             compoundComponent.setComponent(componentService.findByName(name).get(0));
             compoundComponent.setComponentPercentage(percentage);
@@ -131,44 +145,5 @@ public class CompoundComponentController extends AbstractController {
         return "redirect:compoundComponentList?id=" + component.getCompound().getId();
     }
 
-//    private List<String> removeComponents(int id) {
-//
-//        List<String> allComponents = new ArrayList<String>();
-//
-//        for (Component c : componentService.findAll()) {
-//
-//            allComponents.add(c.getName());
-//
-//        }
-//
-//
-//        List<String> compoundComponents = new ArrayList<String>();
-//        for (CompoundComponent c : compoundService.findById(id).getComponentListByIdCompound()) {
-//
-//            compoundComponents.add(c.getComponent().getName());
-//
-//        }
-//
-//        allComponents.removeAll(compoundComponents);
-//
-//        return allComponents;
-//    }
 
-//    @RequestMapping(value = "/compoundComponentAutocomplete", method = RequestMethod.GET)
-//    @ResponseBody
-//    public List<String> compoundComponentAutocomplete(@RequestParam("term") String name, @RequestParam("id") int id) {
-//
-//        List<String> auto = new ArrayList<String>();
-//
-//
-//        for (String n : removeComponents(id)) {
-//            if (n.contains(name)) {
-//                auto.add(name);
-//            }
-//
-//
-//        }
-//
-//        return auto;
-//    }
 }

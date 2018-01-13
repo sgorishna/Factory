@@ -9,7 +9,7 @@
 
         <c:when test="${empty composition}">
 
-            <big><fmt:message key="NO_RESULT" /></big>
+            <big><fmt:message key="NO_COMPOSITION" /></big>
 
 
         </c:when>

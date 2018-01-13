@@ -17,12 +17,13 @@
         <c:otherwise>
 
 
-            <table class="table table-bordered">
+            <table id="table" class="table table-bordered">
 
                 <thead>
                 <tr class="info">
 
                     <th><fmt:message key="COMPOUND_NAME"/></th>
+                    <th><fmt:message key="COMPOUND_CODE"/></th>
 
                     <th colspan=2><fmt:message key="ACTION"/></th>
 
@@ -32,14 +33,16 @@
                 <c:forEach items="${compounds}" var="compound">
                     <tr>
 
-                        <td><a class ="one" href="${CONTEXT}/compoundComposition?id=${compound.id}"><u><c:out value="${compound.name}"/></u></a>
+                        <td><a class="one" href="${CONTEXT}/compoundComposition?id=${compound.id}"><u><c:out
+                                value="${compound.name}"/></u></a>
                         </td>
+                        <td><c:out value="${compound.code}"/></td>
 
+                        <td><a class="one" href="${CONTEXT}/updateCompound?id=${compound.id}"> <fmt:message
+                                key="UPDATE_COMPOUND"/> </a></td>
 
-                        <td><a class ="one" href="${CONTEXT}/renameCompound?id=${compound.id}"> <fmt:message
-                                key="RENAME_COMPOUND"/> </a></td>
-
-                        <td><a class ="one" href="${CONTEXT}/deleteCompound?id=${compound.id}" onclick="return deleteCompound()">
+                        <td><a class="one" href="${CONTEXT}/deleteCompound?id=${compound.id}"
+                               onclick="return deleteCompound()">
                             <fmt:message key="DELETE"/> </a></td>
 
 

@@ -258,7 +258,7 @@ th {
   font-family: 'Glyphicons Halflings';
 
   src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff2') format('woff2'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype');
 }
 .glyphicon {
   position: relative;
@@ -2553,7 +2553,7 @@ output {
 }
 .form-control {
   display: block;
-  width: 100%;
+  width: 30%;
   height: 34px;
   padding: 6px 12px;
   font-size: 14px;
@@ -4758,6 +4758,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   list-style: none;
   background-color: #31708f;
   border-radius: 4px;
+  width: 88%;
 }
 .breadcrumb > li {
   display: inline-block;
@@ -6601,12 +6602,8 @@ button.close {
 .affix {
   position: fixed;
 }
-@-ms-viewport {
-  width: device-width;
-}
-.visible-xs,
-.visible-sm,
-.visible-md,
+
+
 .visible-lg {
   display: none !important;
 }

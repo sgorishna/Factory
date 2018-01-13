@@ -18,6 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class Compound  implements Serializable {
 
     @Id
@@ -33,6 +34,32 @@ public class Compound  implements Serializable {
     @OneToMany(mappedBy = "compound")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<CompoundComponent> componentListByIdCompound;
+
+    @Override
+    public boolean equals(Object o) {
+
+        boolean res =true;
+        if (this == o) return res;
+        if (o == null || getClass() != o.getClass())
+            res= false;
+
+        Compound compound = (Compound) o;
+
+        if (getId() != compound.getId())
+            res= false;
+        if (!getName().equals(compound.getName()))
+            res= false;
+//        return (getCode() != null) && getCode().equals(compound.getCode()) || getCode() == null && (compound.getCode() == null);
+return res;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + (getCode() != null ? getCode().hashCode() : 0);
+        return result;
+    }
 
     @OneToMany(mappedBy = "compound")
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -52,5 +79,8 @@ public class Compound  implements Serializable {
 
         this.name = name;
     }
+
+
+
 
 }

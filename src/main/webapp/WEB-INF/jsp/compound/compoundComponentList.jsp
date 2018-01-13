@@ -9,17 +9,9 @@
 
     <title>Register new customer</title>
     <style>
-        <!--
-        Bootstrap core CSS
-
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
@@ -70,6 +62,15 @@
                     <a href="${CONTEXT}/components"><fmt:message key="COMPONENTS"/></a>
                 </li>
 
+            </ul>
+
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class="styleone"><fmt:message key="EXCEPTIONS"/> <span
+                            class="sr-only">(current)</span></a>
+                </li>
             </ul>
 
 

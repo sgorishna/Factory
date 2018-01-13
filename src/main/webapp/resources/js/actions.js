@@ -1,9 +1,7 @@
-
-
 function deleteProduct() {
 
-	return confirm('Are you sure you want to delete this product?');
-	
+    return confirm('Are you sure you want to delete this product?');
+
 }
 
 function deleteCompound() {
@@ -24,18 +22,29 @@ function deleteUser() {
 
 }
 
+function deleteCategory() {
+
+    return confirm('Are you sure you want to delete this category?');
+
+}
+
+function deleteException() {
+
+    return confirm('Are you sure you want to delete this exception?');
+
+}
 
 
 function activateAccount() {
 
-	return confirm('Are you sure you want activate account?');
-	
+    return confirm('Are you sure you want activate account?');
+
 }
 
 
 function deactivateAccount() {
 
-	return confirm('Are you sure you want block account?');
-	
+    return confirm('Are you sure you want block account?');
+
 }
 

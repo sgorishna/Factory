@@ -10,18 +10,14 @@
 
     <title>Register new customer</title>
     <style>
-        <!--
-        Bootstrap core CSS
-
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
+
+        <%@include file="/resources/css/jquery-ui.css" %>
+
+        <%@include file="/resources/css/scrollingForAutocomplete.css" %>
 
     </style>
 
@@ -30,26 +26,10 @@
         <%@include file="/resources/js/jquery-1.10.2.js" %>
         <%@include file="/resources/js/jquery-ui.js" %>
 
-    </script>
-
-    <style>
-
-        <%@include file="/resources/css/jquery-ui.css" %>
-    </style>
-
-
-    <script type="text/javascript">
-
         <%@include file="/resources/js/jqueryAutocomplete.js" %>
+        <%@include file="/resources/js/checkName.js" %>
 
     </script>
-
-    <style>
-
-        <%@include file="/resources/css/scrollingForAutocomplete.css" %>
-    </style>
-
-
 
 
 </head>
@@ -94,6 +74,14 @@
                     <a href="${CONTEXT}/components"><fmt:message key="COMPONENTS"/></a>
                 </li>
 
+            </ul>
+
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class = "styleone"><fmt:message key="EXCEPTIONS" /> <span class="sr-only">(current)</span></a>
+                </li>
             </ul>
 
 

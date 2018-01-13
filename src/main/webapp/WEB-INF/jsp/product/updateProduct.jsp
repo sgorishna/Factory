@@ -57,8 +57,7 @@
                 </li>
                 <li>
 
-                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span
-                            class="sr-only">(current)</span></a>
+                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span class="sr-only">(current)</span></a>
                 </li>
 
                 <li>
@@ -71,24 +70,42 @@
 
             </ul>
 
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class = "styleone"><fmt:message key="EXCEPTIONS" /> <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="sub-header"><fmt:message key="COMPONENTS"/></h2>
+            <h2 class="sub-header"><fmt:message key="PRODUCTS"/></h2>
 
             <ol class="breadcrumb">
 
 
-                <li><a href="${CONTEXT}/newComponent"><fmt:message key="ADD_NEW_COMPONENT"/></a>
+                <li><a href="${CONTEXT}/productComposition?id=${product.id}"><fmt:message key="PRODUCT_COMPOSITION"/></a>
                 </li>
 
+                <li><a href="${CONTEXT}/newProductCompound?id=${product.id}"><fmt:message key="ADD_COMPOUND"/></a></li>
+
+                <li><a href="${CONTEXT}/newProductComponent?id=${product.id}"><fmt:message key="ADD_COMPONENT"/></a>
+                </li>
+
+                <li><a href="${CONTEXT}/productCompoundList?id=${product.id}"><fmt:message key="SHOW_COMPOUNDS"/></a></li>
+
+
+                <li><a href="${CONTEXT}/productComponentList?id=${product.id}"> <fmt:message key="SHOW_COMPONENTS"/> </a>
+                </li>
 
                 </li>
 
 
             </ol>
 
-            <jsp:include page="../modules/component/moduleRenameComponent.jsp"></jsp:include>
+            <jsp:include page="../modules/product/moduleUpdateProduct.jsp"></jsp:include>
         </div>
 
 

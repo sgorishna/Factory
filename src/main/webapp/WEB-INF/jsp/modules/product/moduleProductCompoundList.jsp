@@ -25,7 +25,9 @@
                 <tr class = "info">
 
                     <th><fmt:message key="COMPOUND_NAME" /></th>
+                    <th><fmt:message key="COMPOUND_CODE" /></th>
                     <th><fmt:message key="PERCENTAGE" /></th>
+
                     <th colspan=2 ><fmt:message key="ACTION"/></th>
 
                 </tr>
@@ -35,6 +37,7 @@
                     <tr>
 
                         <td><c:out value="${compound.compound.name}" /></td>
+                        <td><c:out value="${compound.compound.code}" /></td>
                         <td><c:out value="${compound.compoundPercentage}" /></td>
 
                         <td><a class ="one" href="${CONTEXT}/updateProductCompound?id=${compound.id}" > <fmt:message key="UPDATE_COMPOUND" /> </a></td>

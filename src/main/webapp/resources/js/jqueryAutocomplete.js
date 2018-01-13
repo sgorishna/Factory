@@ -24,15 +24,22 @@ $(document).ready(function() {
                  The data returned from the server, a string describing the status:
                  */
                 success: function(data,type) {
-                    console.log( data);
-                    items = data;
-                    response(items);
+
+                    response(data);
                 },
                 //if the request fails,A error function to be called.
                 error: function(data,type){
                     console.log( type);
                 }
             });
+        },
+        select: function(event,ui){
+            event.preventDefault();
+            var selectedArr = ui.item.value.split("-");
+            $("#componentName").val(selectedArr[0].trim());
+            $("#code").val(selectedArr[1].trim());
+
+            return false;
         }
     });
 
@@ -57,16 +64,25 @@ $(document).ready(function() {
                  The data returned from the server, a string describing the status:
                  */
                 success: function(data,type) {
-                    console.log( data);
-                    items = data;
-                    response(items);
+
+                    response(data);
                 },
+
                 //if the request fails,A error function to be called.
                 error: function(data,type){
                     console.log( type);
                 }
             });
+        },
+        select: function(event,ui){
+            event.preventDefault();
+            var selectedArr = ui.item.value.split("-");
+            $("#compoundName").val(selectedArr[0].trim());
+            $("#code").val(selectedArr[1].trim());
+
+            return false;
         }
+
     });
 
 });

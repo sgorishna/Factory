@@ -9,24 +9,22 @@
 
     <title>Register new customer</title>
     <style>
-        <!--
-        Bootstrap core CSS
 
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
 
     <script type="text/javascript">
+
+        <%@include file="/resources/js/jquery-1.10.2.js" %>
+        <%@include file="/resources/js/jquery-ui.js" %>
+        <%@include file="/resources/js/tableSearch.js" %>
         <%@include file="/resources/js/actions.js" %>
     </script>
+
 
 </head>
 <body>
@@ -72,10 +70,30 @@
 
             </ul>
 
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class="styleone"><fmt:message key="EXCEPTIONS"/> <span
+                            class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="sub-header"><fmt:message key="COMPOUNDS"/></h2>
+
+            <div>
+
+                <div class="input-group" style="float:right; margin-bottom:20px">
+
+
+                    <input type="text" id="search" class="form-control" placeholder="Search for..."
+                           aria-label="Left Align">
+                </div>
+
+            </div>
 
             <ol class="breadcrumb">
 

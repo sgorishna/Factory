@@ -25,24 +25,45 @@ public class ComponentServiceImpl implements ComponentService {
     }
 
     public void save(Component component) throws InvalidDataException {
-        if(dao.findByName(component.getName()).isEmpty())
+        if (dao.findByName(component.getName()).isEmpty()) {
 
-        dao.save(component);
+            if (dao.findByCode(component.getCode()).isEmpty()) {
 
-        else{
+                dao.save(component);
+            } else {
 
-            throw new InvalidDataException("Component with name '"+component.getName() + "' already exist. Please choose other name");
+                throw new InvalidDataException("Component with code '" + component.getCode() + "' already exist. Please input other code");
+            }
+        } else {
+
+            throw new InvalidDataException("Component with name '" + component.getName() + "' already exist. Please choose other name");
         }
     }
 
     public void update(Component component) throws InvalidDataException {
-        if(dao.findByName(component.getName()).isEmpty())
+
+        Component found = dao.findById(component.getId());
+
+        if (!dao.findByCode(component.getCode()).isEmpty() && !dao.findByCode(component.getCode()).get(0).getCode().equals(found.getCode())) {
+
+            if (!component.getCode().equals(""))
+
+
+                throw new InvalidDataException("Component with code '" + component.getCode() + "' already exist. Please input other code");
+            else {
+
+                dao.update(component);
+            }
+
+        } else if (!dao.findByName(component.getName()).isEmpty() && !dao.findByName(component.getName()).get(0).getName().equals(found.getName())) {
+
+            throw new InvalidDataException("Component with name '" + component.getName() + "' already exist. Please choose other name");
+
+        } else {
+
             dao.update(component);
-
-        else{
-
-            throw new InvalidDataException("Component with name '"+component.getName() + "' already exist. Please choose other name");
         }
+
     }
 
     public void delete(Component component) {
@@ -64,15 +85,25 @@ public class ComponentServiceImpl implements ComponentService {
         return dao.findByName(name);
     }
 
+    public List<Component> findByCode(String code) {
+
+        return dao.findByCode(code);
+    }
+
     public List<String> autocompleteComponentName(String name) {
 
         List<String> list = new ArrayList<String>();
 
-        for(Component component: dao.autocompleteComponentName(name)){
+        for (Component component : dao.autocompleteComponentName(name)) {
 
-              list.add(component.getName());
+            if (null == component.getCode()|| component.getCode().equals("")) {
+
+                list.add(component.getName() + " - N/A ");
+            } else
+                list.add(component.getName() + " - " + component.getCode());
         }
 
         return list;
     }
+
 }

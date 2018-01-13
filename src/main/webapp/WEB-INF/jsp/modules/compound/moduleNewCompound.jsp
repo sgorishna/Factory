@@ -17,6 +17,10 @@
 
 <div class="form-group">
 
+ <form:label path = "code" class="control-label" ><fmt:message key="COMPOUND_CODE" /></form:label>
+ &nbsp<span id="checkCode"> </span>
+ <form:input path = "code" id ="code" type="number" step="any" min="0" max="99999999" class="form-control"  placeholder="Input code" onkeyup="checkCompoundCode()" />
+
  <form:label path = "name" class="control-label" ><fmt:message key="COMPOUND_NAME" /></form:label>
  &nbsp<span id="checkName"> </span>
  <form:input path = "name" id ="name" type="text" class="form-control"  placeholder="Input a name" onkeyup="checkCompoundName()" required ="required" />

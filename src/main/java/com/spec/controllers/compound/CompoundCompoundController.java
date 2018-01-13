@@ -59,11 +59,26 @@ public class CompoundCompoundController extends AbstractController {
     }
 
     @RequestMapping(value = "/newCompoundCompound", method = RequestMethod.POST)
-    public String newCompoundCompound(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, RedirectAttributes redirectAttributes) {
+    public String newCompoundCompound(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, @RequestParam(value = "code") String code, RedirectAttributes redirectAttributes) {
 
         CompoundCompound compoundCompound = new CompoundCompound();
 
-        if (!compoundService.findByName(name).isEmpty()) {
+        if (!code.equals("N/A")) {
+
+            compoundCompound.setParent(compoundService.findById(id));//setCompound(compoundService.findById(id));
+            compoundCompound.setChild(compoundService.findByCode(code).get(0));
+            compoundCompound.setChildPercentage(percentage);
+
+            try {
+                service.save(compoundCompound);
+            } catch (InvalidDataException e) {
+                redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
+
+                return "redirect:newCompoundCompound?id=" + id;
+            }
+
+
+        } else if (!compoundService.findByName(name).isEmpty()) {
             compoundCompound.setParent(compoundService.findById(id));//setCompound(compoundService.findById(id));
             compoundCompound.setChild(compoundService.findByName(name).get(0));
             compoundCompound.setChildPercentage(percentage);
@@ -77,9 +92,7 @@ public class CompoundCompoundController extends AbstractController {
             }
 
 
-        }
-
-        else {
+        } else {
 
             redirectAttributes.addFlashAttribute("errMsg", "compound '" + name + "' does not exist in system");
 

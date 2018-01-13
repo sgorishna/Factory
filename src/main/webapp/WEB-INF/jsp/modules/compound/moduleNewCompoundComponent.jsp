@@ -21,10 +21,18 @@
 
         <div class="form-group">
 
-            <label path="name" class="control-label"><fmt:message key="COMPONENT_NAME"/></label>
+            <label path="code" class="control-label"><fmt:message key="COMPONENT_CODE"/></label>
+
+
+            <input type="text" id="code" class="form-control" name="code"
+                   readonly="readonly" />
+
+            <label path="name" class="control-label" ><fmt:message key="COMPONENT_NAME"/></label>
+
 
             <input type="text" id="componentName" class="form-control" name="name" placeholder="Input name"
-                   required="required"/>
+                   required="required" />
+
 
             <label class="control-label"><fmt:message key="PERCENTAGE"/></label>
 

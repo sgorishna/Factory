@@ -9,17 +9,9 @@
 
     <title>Register new customer</title>
     <style>
-        <!--
-        Bootstrap core CSS
-
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
@@ -58,7 +50,8 @@
                 </li>
                 <li>
 
-                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span class="sr-only">(current)</span></a>
+                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span
+                            class="sr-only">(current)</span></a>
                 </li>
 
                 <li>
@@ -71,6 +64,15 @@
 
             </ul>
 
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class="styleone"><fmt:message key="EXCEPTIONS"/> <span
+                            class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -78,18 +80,23 @@
 
             <ol class="breadcrumb">
 
-                <li><a href="${CONTEXT}/compoundComposition?id=${child.parent.id}"><fmt:message key="COMPOUND_COMPOSITION"/></a>
+                <li><a href="${CONTEXT}/compoundComposition?id=${child.parent.id}"><fmt:message
+                        key="COMPOUND_COMPOSITION"/></a>
                 </li>
 
-                <li><a href="${CONTEXT}/newCompoundCompound?id=${child.parent.id}"><fmt:message key="ADD_COMPOUND"/></a></li>
-
-                <li><a href="${CONTEXT}/newCompoundComponent?id=${child.parent.id}"><fmt:message key="ADD_COMPONENT"/></a>
+                <li><a href="${CONTEXT}/newCompoundCompound?id=${child.parent.id}"><fmt:message key="ADD_COMPOUND"/></a>
                 </li>
 
-                <li><a href="${CONTEXT}/compoundCompoundList?id=${child.parent.id}"><fmt:message key="SHOW_COMPOUNDS"/></a></li>
+                <li><a href="${CONTEXT}/newCompoundComponent?id=${child.parent.id}"><fmt:message
+                        key="ADD_COMPONENT"/></a>
+                </li>
+
+                <li><a href="${CONTEXT}/compoundCompoundList?id=${child.parent.id}"><fmt:message
+                        key="SHOW_COMPOUNDS"/></a></li>
 
 
-                <li><a href="${CONTEXT}/compoundComponentList?id=${child.parent.id}"> <fmt:message key="SHOW_COMPONENTS"/> </a>
+                <li><a href="${CONTEXT}/compoundComponentList?id=${child.parent.id}"> <fmt:message
+                        key="SHOW_COMPONENTS"/> </a>
                 </li>
 
 

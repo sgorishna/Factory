@@ -28,10 +28,12 @@ public class CompoundCompoundServiceImpl implements CompoundCompoundService {
         boolean res = false;
         for (CompoundCompound c : compoundCompound.getParent().getChildByParentId()) {
 
-            if (c.getChild().getName().equals(compoundCompound.getChild().getName())) {
+            if(c.getChild().equals(compoundCompound.getChild())){
 
-                res = true;
+                res =true;
             }
+
+
         }
 
         return res;

@@ -19,14 +19,18 @@
 
 
 
-            <table class="table table-bordered">
+            <table id="table" class="table table-bordered">
 
                 <thead>
                 <tr class = "info">
 
                     <th><fmt:message key="COMPONENT_NAME" /></th>
 
-                    <th colspan=3 ><fmt:message key="ACTION"/></th>
+                    <th><fmt:message key="COMPONENT_CODE" /></th>
+
+                    <th><fmt:message key="ALLERGEN" /></th>
+
+                    <th colspan=2 ><fmt:message key="ACTION"/></th>
 
                 </tr>
                 </thead>
@@ -35,9 +39,11 @@
                     <tr>
 
                         <td><c:out value="${component.name}" /></td>
+                        <td><c:out value="${component.code}" /></td>
+                        <td><c:out value="${component.allergen}" /></td>
 
 
-                        <td><a class ="one" href="${CONTEXT}/renameComponent?id=${component.id}" > <fmt:message key="RENAME_COMPONENT" /> </a></td>
+                        <td><a class ="one" href="${CONTEXT}/updateComponent?id=${component.id}" > <fmt:message key="UPDATE_COMPONENT" /> </a></td>
                         <td><a class ="one" href="${CONTEXT}/deleteComponent?id=${component.id}" onclick="return deleteComponent()"> <fmt:message key="DELETE" /> </a></td>
 
 
@@ -52,6 +58,7 @@
         </c:otherwise>
 
     </c:choose>
+
 
 </div>
 

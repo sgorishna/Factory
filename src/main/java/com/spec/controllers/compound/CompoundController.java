@@ -4,7 +4,7 @@ import com.spec.controllers.AbstractController;
 import com.spec.exceptions.InvalidDataException;
 import com.spec.model.Compound;
 import com.spec.service.CompoundService;
-import com.spec.utils.Utils;
+import com.spec.utils.Composition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +22,14 @@ public class CompoundController extends AbstractController {
 
     private final CompoundService compoundService;
 
-    private final Utils utils;
+    private final Composition composition;
 
 
     @Autowired
-    public CompoundController(CompoundService compoundService, Utils utils) {
+    public CompoundController(CompoundService compoundService, Composition composition) {
         this.compoundService = compoundService;
 
-        this.utils = utils;
+        this.composition = composition;
     }
 
     @RequestMapping(value = "/compounds", method = RequestMethod.GET)
@@ -68,20 +68,20 @@ public class CompoundController extends AbstractController {
 
     }
 
-    @RequestMapping(value = "/renameCompound", method = RequestMethod.GET)
-    public String renameCompound(@RequestParam(value = "id") int id, Model model) {
+    @RequestMapping(value = "/updateCompound", method = RequestMethod.GET)
+    public String updateCompound(@RequestParam(value = "id") int id, Model model) {
 
         Compound compound = compoundService.findById(id);
         model.addAttribute("compound", compound);
 
 
-        return "compound/renameCompound";
+        return "compound/updateCompound";
 
 
     }
 
-    @RequestMapping(value = "/renameCompound", method = RequestMethod.POST)
-    public String renameCompound(@ModelAttribute("compound") Compound compound, RedirectAttributes redirectAttributes) {
+    @RequestMapping(value = "/updateCompound", method = RequestMethod.POST)
+    public String updateCompound(@ModelAttribute("compound") Compound compound, RedirectAttributes redirectAttributes) {
 
         try {
             compoundService.update(compound);
@@ -93,7 +93,7 @@ public class CompoundController extends AbstractController {
             redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
 
 
-            return "redirect:renameCompound?id=" + compound.getId();
+            return "redirect:updateCompound?id=" + compound.getId();
         }
 
 
@@ -112,6 +112,45 @@ public class CompoundController extends AbstractController {
 
 
         return "compound/checkName";
+
+    }
+
+    @RequestMapping(value = "/checkCompoundCode", method = RequestMethod.GET)
+    public String checkCompoundCode(@RequestParam(value = "code") String code, Model model) {
+
+
+        if (!compoundService.findByCode(code).isEmpty()) {
+
+            model.addAttribute("taken", "Code already exists in system");
+        } else {
+            model.addAttribute("available", "Available");
+        }
+
+
+        return "compound/checkCode";
+
+    }
+
+    @RequestMapping(value = "/findCodeByCompoundName", method = RequestMethod.GET)
+    public String findCodeByCompoundName(@RequestParam(value = "name") String name, Model model) {
+
+        List<Compound> с = compoundService.findByName(name);
+
+
+        if (!с.isEmpty()) {
+            String code = с.get(0).getCode();
+
+            if (null != code) {
+
+
+                model.addAttribute("code", code);
+            } else model.addAttribute("no_code", "NO CODE");
+        } else {
+            model.addAttribute("no_code", "NO CODE");
+        }
+
+
+        return "compound/findCode";
 
     }
 
@@ -136,9 +175,9 @@ public class CompoundController extends AbstractController {
 
         Compound compound = compoundService.findById(id);
 
-        utils.compoundComposition(compound);
+        composition.compoundComposition(compound);
 
-        model.addAttribute("composition", utils.getResult());
+        model.addAttribute("composition", composition.getResult());
         model.addAttribute("compound", compound);
 
         return "compound/compoundComposition";

@@ -12,6 +12,14 @@
 
     <mvc:resources mapping="/resources/**" location="/resources/"/>
 
+    <!-- View resolver -->
+    <bean class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="order" value="1" />
+        <property name="location">
+            <value>/WEB-INF/pdf-views.xml</value>
+        </property>
+    </bean>
+
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
             <value>/WEB-INF/jsp/</value>
@@ -19,6 +27,7 @@
         <property name="suffix">
             <value>.jsp</value>
         </property>
+        <property name="order" value="2"/>
     </bean>
 
 </beans>

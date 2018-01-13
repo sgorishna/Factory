@@ -28,10 +28,12 @@ public class ProductCompoundServiceImpl implements ProductCompoundService {
         boolean res = false;
         for (ProductCompound p : productCompound.getProduct().getCompoundsListByIdProduct()) {
 
-            if (p.getCompound().getName().equals(productCompound.getCompound().getName())) {
+            if(p.getCompound().equals(productCompound.getCompound())){
 
-                res = true;
+                res =true;
             }
+
+
         }
 
         return res;

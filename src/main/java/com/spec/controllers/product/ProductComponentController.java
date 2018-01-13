@@ -61,11 +61,29 @@ public class ProductComponentController extends AbstractController {
     }
 
     @RequestMapping(value = "/newProductComponent", method = RequestMethod.POST)
-    public String newProductComponent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, RedirectAttributes redirectAttributes) {
+    public String newProductComponent(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, @RequestParam(value = "code") String code, RedirectAttributes redirectAttributes) {
 
         ProductComponent productComponent = new ProductComponent();
 
-        if (!componentService.findByName(name).isEmpty()) {
+        if (!code.equals("N/A")) {
+
+            productComponent.setComponent(componentService.findByCode(code).get(0));
+            productComponent.setProduct(productService.findById(id));
+            productComponent.setComponentPercentage(percentage);
+
+            try {
+                service.save(productComponent);
+            } catch (InvalidDataException e) {
+                redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
+
+                return "redirect:newProductComponent?id=" + id;
+            }
+
+
+
+        }
+
+       else if (!componentService.findByName(name).isEmpty()) {
 
             productComponent.setComponent(componentService.findByName(name).get(0));
             productComponent.setProduct(productService.findById(id));

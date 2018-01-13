@@ -26,22 +26,80 @@ public class CompoundServiceImpl implements CompoundService {
 
     public void save(Compound compound) throws InvalidDataException {
 
-        if (compoundDao.findByName(compound.getName()).isEmpty())
-            compoundDao.save(compound);
-        else {
+        if (compound.getCode() == "" || compound.getCode() == null) {
 
-            throw new InvalidDataException("Compound with name '" + compound.getName() + "' already exist. Please choose other name");
+            if (compoundDao.findByName(compound.getName()).isEmpty())
+                compoundDao.save(compound);
+            else {
+
+                throw new InvalidDataException("Compound with name '" + compound.getName() + "' already exist. Please choose other name");
+            }
+
+
+        } else {
+
+            if (compoundDao.findByCode(compound.getCode()).isEmpty())
+                compoundDao.save(compound);
+            else {
+
+                throw new InvalidDataException("Compound with code '" + compound.getCode() + "' already exist. Please input other code");
+            }
+
+
         }
+
+//        if (compoundDao.findByName(compound.getName()).isEmpty())
+//            compoundDao.save(compound);
+//        else {
+//
+//            throw new InvalidDataException("Compound with name '" + compound.getName() + "' already exist. Please choose other name");
+//        }
     }
 
     public void update(Compound compound) throws InvalidDataException {
-        if (compoundDao.findByName(compound.getName()).isEmpty())
+
+        Compound found = compoundDao.findById(compound.getId());
+
+        if(compound.getCode().equals("") && !compound.getCode().equals(found.getCode())){
+
+
+
+                if (compoundDao.findByName(compound.getName()).isEmpty())
+
+
+                    compoundDao.update(compound);
+                else {
+
+                    if(!compoundDao.findByName(compound.getName()).get(0).getCode().equals(compound.getCode())){
+
+                        compoundDao.update(compound);
+                    }
+ else
+                    throw new InvalidDataException("Compound with name '" + compound.getName() + "' already exist. Please choose other code");
+                }
+
+
+
+        }
+
+        else if (!compound.getCode().equals(found.getCode()) ) {
+
+            if (compoundDao.findByCode(compound.getCode()).isEmpty())
+                compoundDao.update(compound);
+            else {
+
+
+                throw new InvalidDataException("Compound with code '" + compound.getCode() + "' already exist. Please input other code");
+            }
+
+
+        }
+        else {
             compoundDao.update(compound);
 
-        else {
 
-            throw new InvalidDataException("Compound with name '" + compound.getName() + "' already exist. Please choose other name");
         }
+
     }
 
     public void delete(Compound compound) {
@@ -61,13 +119,22 @@ public class CompoundServiceImpl implements CompoundService {
         return compoundDao.findByName(name);
     }
 
+    public List<Compound> findByCode(String code) {
+
+        return compoundDao.findByCode(code);
+    }
+
     public List<String> autocompleteCompoundName(String name) {
 
         List<String> list = new ArrayList<String>();
 
         for (Compound compound : compoundDao.autocompleteCompoundName(name)) {
 
-            list.add(compound.getName());
+            if (null == compound.getCode() || compound.getCode().equals("")) {
+
+                list.add(compound.getName() + " - N/A ");
+            } else
+                list.add(compound.getName() + " - " + compound.getCode());
         }
 
         return list;

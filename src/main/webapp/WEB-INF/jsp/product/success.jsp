@@ -12,12 +12,17 @@
         <!-- Bootstrap core CSS -->
 
         <%@include file="/resources/css/bootstrap.css" %>
-
-
-        <!-- Custom styles for this template -->
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
+
+    <script type="text/javascript">
+        <%@include file="/resources/js/quid.js" %>
+        <%@include file="/resources/js/jquery-1.10.2.js" %>
+
+        csrfParameter = '${_csrf.parameterName}';
+        csrfToken = '${_csrf.token}';
+    </script>
 
 </head>
 <body>
@@ -46,6 +51,7 @@
             <ul class="nav nav-sidebar">
 
 
+
                 <li >
                     <a href="${CONTEXT}/home">Home <span class="sr-only">(current)</span></a>
                 </li>
@@ -62,6 +68,14 @@
 
                 <li >
                     <a href="${CONTEXT}/components">Components</a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class = "styleone"><fmt:message key="EXCEPTIONS" /> <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
 

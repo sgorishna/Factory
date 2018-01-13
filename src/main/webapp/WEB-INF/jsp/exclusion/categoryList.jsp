@@ -7,26 +7,19 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 
-    <title>Register new customer</title>
+    <title>Home</title>
     <style>
-        <!--
-        Bootstrap core CSS
-
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
 
     <script type="text/javascript">
-        <%@include file="/resources/js/checkName.js" %>
+        <%@include file="/resources/js/actions.js" %>
     </script>
+
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -52,55 +45,54 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li>
-                    <a href="${CONTEXT}/home"><fmt:message key="HOME"/> <span class="sr-only">(current)</span></a>
-                </li>
-                <li>
 
-                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span class="sr-only">(current)</span></a>
-                </li>
 
                 <li>
-                    <a href="${CONTEXT}/compounds"><fmt:message key="COMPOUNDS"/></a>
+                    <a href="${CONTEXT}/home" class="styleone">Home <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-sidebar">
+                <li>
+                    <a href="${CONTEXT}/products">Products <span class="sr-only">(current)</span></a>
                 </li>
 
                 <li>
-                    <a href="${CONTEXT}/components"><fmt:message key="COMPONENTS"/></a>
+                    <a href="${CONTEXT}/compounds">Compounds</a>
                 </li>
 
+                <li>
+                    <a href="${CONTEXT}/components">Components</a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class="styleone">Exceptions <span
+                            class="sr-only">(current)</span></a>
+                </li>
             </ul>
 
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="sub-header"><fmt:message key="PRODUCTS"/></h2>
+            <h2 class="sub-header"><fmt:message key="EXCEPTIONS_CATEGORIES"/></h2>
 
             <ol class="breadcrumb">
 
-
-                <li><a href="${CONTEXT}/productComposition?id=${product.id}"><fmt:message key="PRODUCT_COMPOSITION"/></a>
+                <li><a href="${CONTEXT}/newCategory"><fmt:message key="ADD_NEW_CATEGORY"/></a>
                 </li>
 
-                <li><a href="${CONTEXT}/newProductCompound?id=${product.id}"><fmt:message key="ADD_COMPOUND"/></a></li>
-
-                <li><a href="${CONTEXT}/newProductComponent?id=${product.id}"><fmt:message key="ADD_COMPONENT"/></a>
-                </li>
-
-                <li><a href="${CONTEXT}/productCompoundList?id=${product.id}"><fmt:message key="SHOW_COMPOUNDS"/></a></li>
-
-
-                <li><a href="${CONTEXT}/productComponentList?id=${product.id}"> <fmt:message key="SHOW_COMPONENTS"/> </a>
-                </li>
 
                 </li>
 
 
             </ol>
 
-            <jsp:include page="../modules/product/moduleRenameProduct.jsp"></jsp:include>
+            <jsp:include page="../modules/exclusion/moduleCategoryList.jsp"></jsp:include>
         </div>
-
-
     </div>
 </div>
 

@@ -23,5 +23,7 @@ public interface CompoundService {
 
     List<Compound> findByName(String name);
 
+    List<Compound> findByCode(String code);
+
     List<String> autocompleteCompoundName(String name);
 }

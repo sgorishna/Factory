@@ -17,10 +17,17 @@
 
 <div class="form-group">
 
+ <form:label path = "code" class="control-label" ><fmt:message key="PRODUCT_CODE" /></form:label>
+ &nbsp<span id="checkCode"> </span>
+ <form:input path = "code" id ="code" type="text" class="form-control"  placeholder="Input code" onkeyup="checkProductCode()" />
+
  <form:label path = "name" class="control-label" ><fmt:message key="PRODUCT_NAME" /></form:label>
  &nbsp<span id="checkName"> </span>
  <form:input path = "name" id ="name" type="text" class="form-control"  placeholder="Input a name" onkeyup="checkProductName()" required ="required" />
 
+ <form:label path = "legalName" class="control-label" ><fmt:message key="LEGAL_NAME" /></form:label>
+
+ <form:input path = "legalName" id ="legalName" type="text" class="form-control"  placeholder="Input a legal name"  />
 </div>
 
 

@@ -18,10 +18,17 @@ import java.util.List;
 @Component
 public class CompoundDaoImpl extends AbstractGenericDao<Compound> implements CompoundDao {
 
-@Transactional
+    @Transactional
     public List<Compound> autocompleteCompoundName(String name) {
-    Criteria criteria = getSession().createCriteria(Compound.class);
-    criteria.add(Restrictions.ilike("name", name, MatchMode.ANYWHERE));
-    return criteria.list();
+        Criteria criteria = getSession().createCriteria(Compound.class);
+        criteria.add(Restrictions.ilike("name", name, MatchMode.ANYWHERE));
+        return criteria.list();
+    }
+
+    @Transactional
+    public List<Compound> findByCode(String code) {
+        Criteria criteria = getSession().createCriteria(Compound.class);
+        criteria.add(Restrictions.eq("code", code));
+        return criteria.list();
     }
 }

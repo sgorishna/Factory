@@ -3,6 +3,7 @@ package com.spec.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@DynamicUpdate
 public class Component  implements Serializable {
 
     @Id
@@ -30,6 +32,9 @@ public class Component  implements Serializable {
 
     private String code;
 
+    private String allergen;
+
+
     @OneToMany(mappedBy = "component")
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<CompoundComponent> compoundsListByIdComponent;
@@ -38,6 +43,9 @@ public class Component  implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ProductComponent> productListByIdComponent;
 
+    @OneToMany(mappedBy = "component")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<CategoryComponent> categoryListByIdComponent;
 
 
     public Component(String name){

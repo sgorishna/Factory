@@ -61,11 +61,26 @@ public class ProductCompoundController extends AbstractController {
     }
 
     @RequestMapping(value = "/newProductCompound", method = RequestMethod.POST)
-    public String newProductCompound(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, RedirectAttributes redirectAttributes) {
+    public String newProductCompound(@RequestParam(value = "id") int id, @RequestParam(value = "name") String name, @RequestParam(value = "percentage") double percentage, @RequestParam(value = "code") String code, RedirectAttributes redirectAttributes) {
 
         ProductCompound productCompound = new ProductCompound();
 
-        if (!compoundService.findByName(name).isEmpty()) {
+        if (!code.equals("N/A")) {
+
+            productCompound.setCompound(compoundService.findByCode(code).get(0));
+            productCompound.setProduct(productService.findById(id));
+            productCompound.setCompoundPercentage(percentage);
+
+            try {
+                service.save(productCompound);
+            } catch (InvalidDataException e) {
+                redirectAttributes.addFlashAttribute("errMsg", e.getMessage());
+
+                return "redirect:newProductCompound?id=" + id;
+            }
+
+
+        } else if (!compoundService.findByName(name).isEmpty()) {
 
             productCompound.setCompound(compoundService.findByName(name).get(0));
             productCompound.setProduct(productService.findById(id));

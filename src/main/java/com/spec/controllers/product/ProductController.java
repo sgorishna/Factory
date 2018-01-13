@@ -4,7 +4,7 @@ import com.spec.controllers.AbstractController;
 import com.spec.exceptions.InvalidDataException;
 import com.spec.model.Product;
 import com.spec.service.ProductService;
-import com.spec.utils.Utils;
+import com.spec.utils.Composition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,12 +22,12 @@ public class ProductController extends AbstractController {
 
     private final ProductService productService;
 
-    private final Utils utils;
+    private final Composition composition;
 
     @Autowired
-    public ProductController(ProductService productService, Utils utils) {
+    public ProductController(ProductService productService, Composition composition) {
         this.productService = productService;
-        this.utils = utils;
+        this.composition = composition;
     }
 
     @RequestMapping(value = "/products", method = RequestMethod.GET)
@@ -65,19 +65,19 @@ productService.save(product);
 
     }
 
-    @RequestMapping(value = "/renameProduct", method = RequestMethod.GET)
-    public String renameProduct(@RequestParam(value = "id") int id, Model model){
+    @RequestMapping(value = "/updateProduct", method = RequestMethod.GET)
+    public String updateProduct(@RequestParam(value = "id") int id, Model model){
 
         Product product = productService.findById(id);
        model.addAttribute("product",product);
 
         System.out.println(product.getId());
-     return "product/renameProduct";
+     return "product/updateProduct";
 
     }
 
-    @RequestMapping(value = "/renameProduct", method = RequestMethod.POST)
-    public String renameProduct(@ModelAttribute("product") Product product, Model model, RedirectAttributes redirectAttributes){
+    @RequestMapping(value = "/updateProduct", method = RequestMethod.POST)
+    public String updateProduct(@ModelAttribute("product") Product product, Model model, RedirectAttributes redirectAttributes){
 
         try {
             productService.update(product);
@@ -89,7 +89,7 @@ productService.save(product);
             redirectAttributes.addFlashAttribute("errMsg",e.getMessage());
 
 
-            return "redirect:renameProduct?id="+product.getId();
+            return "redirect:updateProduct?id="+product.getId();
         }
 
 
@@ -102,7 +102,7 @@ productService.save(product);
 
         if (!productService.findByName(name).isEmpty()) {
 
-            model.addAttribute("taken", "Login already exists in system");
+            model.addAttribute("taken", "Product already exists in system");
         } else {
             model.addAttribute("available", "Available");
         }
@@ -126,12 +126,30 @@ productService.save(product);
 
         Product product = productService.findById(id);
 
-        utils.productComposition(product);
+        composition.productComposition(product);
 
-        model.addAttribute("composition",utils.getResult());
+        model.addAttribute("composition", composition.getResult());
         model.addAttribute("product", product);
 
         return "product/productComposition";
+
+    }
+
+
+
+    @RequestMapping(value = "/checkProductCode", method = RequestMethod.GET)
+    public String checkProductCode(@RequestParam(value = "code") String code, Model model) {
+
+
+        if (!productService.findByCode(code).isEmpty()) {
+
+            model.addAttribute("taken", "Code already exists in system");
+        } else {
+            model.addAttribute("available", "Available");
+        }
+
+
+        return "product/checkCode";
 
     }
 }

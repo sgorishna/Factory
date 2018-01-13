@@ -9,17 +9,9 @@
 
     <title>Register new customer</title>
     <style>
-        <!--
-        Bootstrap core CSS
-
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
@@ -58,7 +50,8 @@
                 </li>
                 <li>
 
-                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span class="sr-only">(current)</span></a>
+                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span
+                            class="sr-only">(current)</span></a>
                 </li>
 
                 <li>
@@ -69,6 +62,15 @@
                     <a href="${CONTEXT}/components"><fmt:message key="COMPONENTS"/></a>
                 </li>
 
+            </ul>
+
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class="styleone"><fmt:message key="EXCEPTIONS"/> <span
+                            class="sr-only">(current)</span></a>
+                </li>
             </ul>
 
 

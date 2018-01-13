@@ -42,17 +42,29 @@ public class ProductServiceImpl implements ProductService {
     public void update(Product product) throws InvalidDataException{
 
 
-        if(productDao.findByName(product.getName()).isEmpty())
+        Product found = productDao.findById(product.getId());
+
+        if (!productDao.findByCode(product.getCode()).isEmpty() && !productDao.findByCode(product.getCode()).get(0).getCode().equals(found.getCode())) {
+
+            throw new InvalidDataException("Product with code '" + product.getCode() + "' already exist. Please input other code");
+
+        } else if (!productDao.findByName(product.getName()).isEmpty() && !productDao.findByName(product.getName()).get(0).getName().equals(found.getName())) {
+
+            throw new InvalidDataException("Product with name '" + product.getName() + "' already exist. Please choose other name");
+
+        } else {
+
             productDao.update(product);
-
-        else{
-
-            throw new InvalidDataException("Product with name '"+product.getName() + "' already exist. Please choose other name");
         }
     }
 
     public Product findById(int id) {
         return productDao.findById(id);
+    }
+
+    public List<Product> findByCode(String code) {
+
+        return productDao.findByCode(code);
     }
 
     public List<Product> findAll() {

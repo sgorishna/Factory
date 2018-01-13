@@ -10,18 +10,14 @@
 
     <title>Register new customer</title>
     <style>
-        <!--
-        Bootstrap core CSS
-
-        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
 
-        <!--
-        Custom styles for this template
-
-        -->
         <%@include file="/resources/css/dashboard.css" %>
+
+        <%@include file="/resources/css/jquery-ui.css" %>
+
+        <%@include file="/resources/css/scrollingForAutocomplete.css" %>
 
     </style>
 
@@ -29,28 +25,11 @@
 
         <%@include file="/resources/js/jquery-1.10.2.js" %>
         <%@include file="/resources/js/jquery-ui.js" %>
-
-    </script>
-
-    <style>
-
-        <%@include file="/resources/css/jquery-ui.css" %>
-    </style>
-
-    <%--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">--%>
-    <%--<script src="//code.jquery.com/jquery-1.10.2.js"></script>--%>
-    <%--<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>--%>
-
-    <script type="text/javascript">
-
         <%@include file="/resources/js/jqueryAutocomplete.js" %>
+        <%@include file="/resources/js/checkName.js" %>
+
 
     </script>
-
-    <style>
-
-        <%@include file="/resources/css/scrollingForAutocomplete.css" %>
-    </style>
 
 
 </head>
@@ -83,7 +62,8 @@
                 </li>
                 <li>
 
-                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span class="sr-only">(current)</span></a>
+                    <a href="${CONTEXT}/products"><fmt:message key="PRODUCTS"/> <span
+                            class="sr-only">(current)</span></a>
                 </li>
 
                 <li>
@@ -96,25 +76,38 @@
 
             </ul>
 
+            <ul class="nav nav-sidebar">
+
+
+                <li>
+                    <a href="${CONTEXT}/exceptions" class="styleone"><fmt:message key="EXCEPTIONS"/> <span
+                            class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h2 class="sub-header">${compound.name} <fmt:message key="ADD_NEW_COMPOUND"/></h2>
 
             <ol class="breadcrumb">
-                
-                <li><a href="${CONTEXT}/compoundComposition?id=${compound.id}"><fmt:message key="COMPOUND_COMPOSITION"/></a>
+
+                <li><a href="${CONTEXT}/compoundComposition?id=${compound.id}"><fmt:message
+                        key="COMPOUND_COMPOSITION"/></a>
                 </li>
 
-                <li><a href="${CONTEXT}/newCompoundCompound?id=${compound.id}"><fmt:message key="ADD_COMPOUND"/></a></li>
+                <li><a href="${CONTEXT}/newCompoundCompound?id=${compound.id}"><fmt:message key="ADD_COMPOUND"/></a>
+                </li>
 
                 <li><a href="${CONTEXT}/newCompoundComponent?id=${compound.id}"><fmt:message key="ADD_COMPONENT"/></a>
                 </li>
 
-                <li><a href="${CONTEXT}/compoundCompoundList?id=${compound.id}"><fmt:message key="SHOW_COMPOUNDS"/></a></li>
+                <li><a href="${CONTEXT}/compoundCompoundList?id=${compound.id}"><fmt:message key="SHOW_COMPOUNDS"/></a>
+                </li>
 
 
-                <li><a href="${CONTEXT}/compoundComponentList?id=${compound.id}"> <fmt:message key="SHOW_COMPONENTS"/> </a>
+                <li><a href="${CONTEXT}/compoundComponentList?id=${compound.id}"> <fmt:message
+                        key="SHOW_COMPONENTS"/> </a>
                 </li>
 
 

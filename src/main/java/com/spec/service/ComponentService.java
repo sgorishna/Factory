@@ -23,5 +23,7 @@ public interface ComponentService {
 
     List<Component> findByName(String name);
 
+    List<Component> findByCode(String code);
+
     List<String> autocompleteComponentName(String name);
 }
