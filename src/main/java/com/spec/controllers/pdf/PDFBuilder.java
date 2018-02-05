@@ -30,6 +30,8 @@ public class PDFBuilder extends AbstractITextPdfView {
         // get data model which is passed by the Spring container
         List<Result> result = (List<Result>) model.get("result");
 
+
+
         String declaration = (String) model.get("declaration");
 
         String name = result.get(0).getParent();
@@ -87,6 +89,12 @@ public class PDFBuilder extends AbstractITextPdfView {
         cell.setPhrase(new Phrase("Total %", font));
         table.addCell(cell);
 
+        cell.setPhrase(new Phrase("Total % Salt", font));
+        table.addCell(cell);
+
+        cell.setPhrase(new Phrase("Total % Water", font));
+        table.addCell(cell);
+
         if (declaration != ("") && declaration != WebappConstants.error) {
 
             addQuidTableCols(table, cell, font);
@@ -101,6 +109,8 @@ public class PDFBuilder extends AbstractITextPdfView {
             table.addCell(result.get(i).getPercentage());
             table.addCell(result.get(i).getMixBowlPercentage());
             table.addCell(result.get(i).getTotal());
+            table.addCell(result.get(i).getTotalSalt());
+            table.addCell(result.get(i).getTotalWater());
 
             if (declaration != ("") && declaration != WebappConstants.error) {
                 addQuidTableCells(table, i);
@@ -178,15 +188,7 @@ public class PDFBuilder extends AbstractITextPdfView {
 
     private void addQuidTableCells(PdfPTable table, int i) {
 
-        if (WebappConstants.allQuid != null) {
-            table.addCell(WebappConstants.allQuid.get(i));
-        }
-        if (WebappConstants.allDeclared != null) {
-            table.addCell(WebappConstants.allDeclared.get(i));
-        }
-        if (WebappConstants.allAllergens != null) {
-            table.addCell(hasAllergen(WebappConstants.allAllergens.get(i)));
-        }
+
         if (WebappConstants.allFunctions != null) {
             table.addCell(hasFunction(WebappConstants.allFunctions.get(i)));
         }
@@ -195,19 +197,6 @@ public class PDFBuilder extends AbstractITextPdfView {
 
     private void addQuidTableCols(PdfPTable table, PdfPCell cell, Font font) {
 
-
-        if (WebappConstants.allQuid != null) {
-            cell.setPhrase(new Phrase("QUID", font));
-            table.addCell(cell);
-        }
-        if (WebappConstants.allDeclared != null) {
-            cell.setPhrase(new Phrase("Declared", font));
-            table.addCell(cell);
-        }
-        if (WebappConstants.allAllergens != null) {
-            cell.setPhrase(new Phrase("Allergen", font));
-            table.addCell(cell);
-        }
         if (WebappConstants.allFunctions != null) {
             cell.setPhrase(new Phrase("Function", font));
             table.addCell(cell);
@@ -218,18 +207,10 @@ public class PDFBuilder extends AbstractITextPdfView {
 
     private int numCols(String declaration) {
 
-        int res = 6;
+        int res = 8;
 
         if (declaration != ("") && declaration != WebappConstants.error) {
-            if (WebappConstants.allQuid != null) {
-                res += 1;
-            }
-            if (WebappConstants.allDeclared != null) {
-                res += 1;
-            }
-            if (WebappConstants.allAllergens != null) {
-                res += 1;
-            }
+
             if (WebappConstants.allFunctions != null) {
                 res += 1;
             }

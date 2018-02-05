@@ -1,20 +1,22 @@
 package com.spec.controllers;
 
 import com.spec.exceptions.InvalidDataException;
+import com.spec.model.Product;
+import com.spec.model.Quid;
 import com.spec.service.ComponentService;
-import com.spec.utils.Quid;
+import com.spec.service.ProductService;
+import com.spec.service.QuidService;
+import com.spec.utils.QuidUtils;
+import com.spec.utils.WebappConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.spec.utils.WebappConstants.*;
+import static com.spec.utils.WebappConstants.error;
 
 /**
  * Created by Svetik on 21/12/2017.
@@ -22,49 +24,84 @@ import static com.spec.utils.WebappConstants.*;
 @Controller
 public class QuidController extends AbstractController {
 
-    private Quid productCompound;
+    private QuidUtils productCompound;
 
-    private Quid currentCompound;
+    private QuidUtils currentCompound;
 
     private String declaration;
 
 
     private final ComponentService componentService;
 
+    private final QuidService quidService;
+
+    private final ProductService productService;
+
     @Autowired
-    public QuidController(ComponentService componentService) {
+    public QuidController(ComponentService componentService, QuidService quidService, ProductService productService) {
         this.componentService = componentService;
+        this.quidService = quidService;
+        this.productService = productService;
     }
 
 
     @RequestMapping(value = "/parseQuid", method = RequestMethod.POST)
     public
     @ResponseBody
-    String quid(@RequestBody Quid quid) throws ParseException, InvalidDataException {
+    String quid(@RequestBody QuidUtils quidUtils) throws ParseException, InvalidDataException {
+
+        String productName = quidUtils.getProductName();
+
+//List<Product> list = productService.findByName(productName);
+        Product product = productService.findByName(productName).get(0);
+
+        String quidCol = listToString(quidUtils.getQuidColumn());
+
+        String declaredCol = listToString(quidUtils.getDeclaredColumn());
+
+        String allegrenCol = listToString(quidUtils.getAllergenColumn());
+
+        String functionCol = listToString(quidUtils.getFunctionColumn());
+
+        WebappConstants.allFunctions = quidUtils.getFunctionColumn();
+
 
         productCompound = null;
         currentCompound = null;
         declaration = "";
 
-        String productName = quid.getProductName();
+
+        List<String> arrQuidNames = quidUtils.getArrQuidNames();
+
+        List<QuidUtils> quidded;
+        List<QuidUtils> declared;
 
 
-        List<String> arrQuidNames = quid.getArrQuidNames();
-
-        List<Quid> quidded;
-        List<Quid> declared;
+        //Fill up te quid database
 
 
-            allQuid = quid.getAllQuid();
-
-            allDeclared = quid.getAllDeclared();
-
-            allAllergens = quid.getAllAllergens();
-
-            allFunctions = quid.getAllFunctions();
+        if (quidService.findByProductId(product.getId()).isEmpty()) {
 
 
-        List<String> arrDeclaredNames = quid.getArrDeclaredNames();
+            quidService.save(new com.spec.model.Quid(product.getId(), quidCol, declaredCol,
+                    allegrenCol, functionCol));
+        } else {
+
+            //update
+            Quid quid = quidService.findByProductId(productService.findByName(productName).get(0).getId()).get(0);
+
+            quid.setQuidded(quidCol);
+            quid.setDeclared(declaredCol);
+            quid.setAllergen(allegrenCol);
+            quid.setFunction(functionCol);
+
+            quidService.update(quid);
+
+
+        }
+
+
+        List<String> arrDeclaredNames = quidUtils.getArrDeclaredNames();
 
 
         declaration = isError(arrQuidNames, arrDeclaredNames);
@@ -72,9 +109,9 @@ public class QuidController extends AbstractController {
 
         if ("".equals(declaration)) {
 
-            quidded = quid(quid.getArrQuidNames(), quid.getArrQuidPerc());
+            quidded = quid(quidUtils.getArrQuidNames(), quidUtils.getArrQuidPerc(), quidUtils.getArrQuidOrder());
 
-            declared = getDeclared(quid.getArrDeclaredNames(), quid.getArrParent(), quid.getArrOrder(), quid.getArrFunctions(), quid.getArrAllergens());
+            declared = getDeclared(quidUtils.getArrDeclaredNames(), quidUtils.getArrParent(), quidUtils.getArrOrder(), quidUtils.getArrFunctions(), quidUtils.getArrAllergens());
 
             for (int i = 0; i < declared.size(); i++) {
 
@@ -92,13 +129,36 @@ public class QuidController extends AbstractController {
 
         }
 
-        declarationResult = declaration;
+        Quid quid = quidService.findByProductId(productService.findByName(productName).get(0).getId()).get(0);
+
+        quid.setDeclaration(declaration);
+        quid.setDeclarationEditable(declaration);
+        quidService.update(quid);
+
+
         return declaration;
 
     }
 
 
-    private void bracketsHandler(List<Quid> declaration, String productName, int count) {
+    @RequestMapping(value = "/saveDeclarationEditable", method = RequestMethod.POST)
+
+    public String saveDeclarationEditable(@RequestParam("data") String data, String productName) throws InvalidDataException {
+
+        Product p = productService.findByName(productName).get(0);
+
+        Quid quid = quidService.findByProductId(p.getId()).get(0);
+
+        quid.setDeclarationEditable(data);
+
+
+        quidService.update(quid);
+
+        return "redirect:calculate?id=" + p.getId();
+    }
+
+
+    private void bracketsHandler(List<QuidUtils> declaration, String productName, int count) {
 
 
         if (count < declaration.size() - 1) {
@@ -123,18 +183,18 @@ public class QuidController extends AbstractController {
 
     }
 
-    private void handleQuiddedAndDeclared(List<Quid> quidded, List<Quid> declaration, String productName, int count) {
+    private void handleQuiddedAndDeclared(List<QuidUtils> quidded, List<QuidUtils> declaration, String productName, int count) {
 
         haveFunctionQuiddedAndDeclared(declaration, count);
-        isAllergenQuiddedAndDEclared(declaration, count);
-        addQuid(quidded, declaration.get(count).getDeclaredName());
+        isAllergenQuiddedAndDEclared(declaration, count, productName);
+        addQuid(quidded, declaration.get(count));
 
         bracketsHandler(declaration, productName, count);
 
 
     }
 
-    private void handleOnlyDeclared(List<Quid> declaration, String productName, int count) {
+    private void handleOnlyDeclared(List<QuidUtils> declaration, String productName, int count) {
 
 
         haveFunctionOnlyDEclared(declaration, count);
@@ -146,76 +206,102 @@ public class QuidController extends AbstractController {
 
     }
 
-    private void haveFunctionOnlyDEclared(List<Quid> declaration, int count) {
+    private void haveFunctionOnlyDEclared(List<QuidUtils> declaration, int count) {
 
 
         if (!"N/A".equals(declaration.get(count).getFunction())) {
-            this.declaration += " " + declaration.get(count).getFunction() + ": ";
+
+            if (count > 0) {
+
+                if (declaration.get(count).getFunction().equals(declaration.get(count - 1).getFunction())) {
+
+                    this.declaration += "";
+
+
+                } else this.declaration += " " + declaration.get(count).getFunction() + ": ";
+            } else
+
+                this.declaration += " " + declaration.get(count).getFunction() + ": ";
 
         }
 
 
     }
 
-    private void haveFunctionQuiddedAndDeclared(List<Quid> declaration, int count) {
-
+    private void haveFunctionQuiddedAndDeclared(List<QuidUtils> declaration, int count) {
 
         if (!"N/A".equals(declaration.get(count).getFunction())) {
-            this.declaration += " " + declaration.get(count).getFunction() + ": ";
+
+            if (count > 0) {
+
+                if (declaration.get(count).getFunction().equals(declaration.get(count - 1).getFunction())) {
+
+                    if (this.declaration.endsWith("[")) {
+                        this.declaration += " " + declaration.get(count).getFunction() + ": ";
+
+                    } else
+
+                        this.declaration += "";
+
+
+                } else this.declaration += " " + declaration.get(count).getFunction() + ": ";
+            } else
+
+                this.declaration += " " + declaration.get(count).getFunction() + ": ";
 
         }
+
+
+//        if (!"N/A".equals(declaration.get(count).getFunction())) {
+//            this.declaration += " " + declaration.get(count).getFunction() + ": ";
+//
+//        }
 
 
     }
 
-    private void isAllergenOnlyDEclared(List<Quid> declaration, int count) {
+    private void isAllergenOnlyDEclared(List<QuidUtils> declaration, int count) {
 
-        boolean res = true;
+        addAllergen(declaration.get(count).getDeclaredName(), declaration.get(count).getAllergen());
 
-        String[] restrictions = {"", "N/A", "COMPOUND"};
-
-        for (int i = 0; i < restrictions.length; i++) {
-
-            if (declaration.get(count).getAllergen().equals(restrictions[i])) {
-
-                res = false;
-
-            }
-        }
-
-        if (res == true) {
-
-            this.declaration += "<b> " + declaration.get(count).getDeclaredName().toLowerCase() + "</b>" + ",";
-
-        } else {
-
-            this.declaration += " " + declaration.get(count).getDeclaredName() + ",";
-        }
+//        boolean res = true;
+//
+//        String[] restrictions = {"", "N/A", "COMPOUND"};
+//
+//        for (int i = 0; i < restrictions.length; i++) {
+//
+//            if (declaration.get(count).getAllergen().equals(restrictions[i])) {
+//
+//                res = false;
+//
+//            }
+//        }
+//
+//        if (res == true) {
+//
+//            this.declaration += "<b> " + declaration.get(count).getDeclaredName().toLowerCase() + "</b>" + ",";
+//
+//        } else {
+//
+//            this.declaration += " " + declaration.get(count).getDeclaredName() + ",";
+//        }
     }
 
-    private void isAllergenQuiddedAndDEclared(List<Quid> declaration, int count) {
+    private void isAllergenQuiddedAndDEclared(List<QuidUtils> declaration, int count, String productName) {
 
-        boolean res = true;
 
-        String[] restrictions = {"", "N/A", "COMPOUND"};
+        addAllergen(declaration.get(count).getDeclaredName(), declaration.get(count).getAllergen());
 
-        for (int i = 0; i < restrictions.length; i++) {
 
-            if (declaration.get(count).getAllergen().equals(restrictions[i])) {
+//        if (!declaration.get(count).getAllergen().equals("N/A")) {
+//
+//            this.declaration += "<b>" + declaration.get(count).getDeclaredName() + "</b>" + ",";
+//
+//        } else
+//
+//            this.declaration += " " + declaration.get(count).getDeclaredName() + ",";
 
-                res = false;
 
-            }
-        }
-
-        if (res == true) {
-
-            this.declaration += "<b>" + declaration.get(count).getDeclaredName().toUpperCase() + "</b>" + ",";
-
-        } else {
-
-            this.declaration += " " + declaration.get(count).getDeclaredName().toUpperCase() + ",";
-        }
     }
 
     private String isError(List<String> arrQuidNames, List<String> arrDeclaredNames) {
@@ -237,7 +323,7 @@ public class QuidController extends AbstractController {
         return str.substring(0, str.length() - 1);
     }
 
-    private void addBrackets(List<Quid> declaration, String productName, int count) {
+    private void addBrackets(List<QuidUtils> declaration, String productName, int count) {
 
 
         if (productCompound != null) {
@@ -287,7 +373,7 @@ public class QuidController extends AbstractController {
     }
 
 
-    private void addBracketsToLastElem(List<Quid> declaration, int count) {
+    private void addBracketsToLastElem(List<QuidUtils> declaration, int count) {
 
 
         this.declaration = removeLastChar(this.declaration);
@@ -314,7 +400,7 @@ public class QuidController extends AbstractController {
         }
     }
 
-    private void setProductCompound(List<Quid> declaration, int count, String productName) {
+    private void setProductCompound(List<QuidUtils> declaration, int count, String productName) {
 
 
         if (declaration.get(count).getParent().equals(productName)) {
@@ -329,7 +415,7 @@ public class QuidController extends AbstractController {
 
     }
 
-    private void setCurrentCompound(List<Quid> declaration, int count) {
+    private void setCurrentCompound(List<QuidUtils> declaration, int count) {
 
 
         if (productCompound != null) {
@@ -350,10 +436,10 @@ public class QuidController extends AbstractController {
     }
 
 
-    private boolean isQuidded(List<Quid> quidded, String declaredName) {
+    private boolean isQuidded(List<QuidUtils> quidded, String declaredName) {
 
         boolean res = false;
-        for (Quid q : quidded) {
+        for (QuidUtils q : quidded) {
 
             if (q.getQuidName().equals(declaredName)) {
 
@@ -365,12 +451,12 @@ public class QuidController extends AbstractController {
         return res;
     }
 
-    private void addQuid(List<Quid> quidded, String declaredName) {
+    private void addQuid(List<QuidUtils> quidded, QuidUtils declared) {
 
 
-        for (Quid q : quidded) {
+        for (QuidUtils q : quidded) {
 
-            if (q.getQuidName().equals(declaredName)) {
+            if (q.getQuidName().equals(declared.getDeclaredName()) && q.getOrder().equals(declared.getOrder())) {
 
 
                 declaration = removeLastChar(declaration) + " (" + roundResult(q.getQuidPerc()) + "%),";
@@ -396,35 +482,35 @@ public class QuidController extends AbstractController {
     }
 
     private int roundDown(double d) {
-        return (int)d;
+        return (int) d;
     }
 
 
-    private List<Quid> quid(List<String> arrQuidNames, List<String> arrQuidPerc) {
+    private List<QuidUtils> quid(List<String> arrQuidNames, List<String> arrQuidPerc, List<String> arrQuidOrder) {
 
-        List<Quid> quid = new ArrayList<Quid>();
+        List<QuidUtils> quidUtils = new ArrayList<QuidUtils>();
 
         for (int i = 0; i < arrQuidNames.size() && i < arrQuidPerc.size(); i++) {
 
-            quid.add(new Quid(arrQuidNames.get(i), arrQuidPerc.get(i)));
+            quidUtils.add(new QuidUtils(arrQuidNames.get(i), arrQuidPerc.get(i), arrQuidOrder.get(i)));
 
         }
-        return quid;
+        return quidUtils;
     }
 
-    private List<Quid> getDeclared(List<String> arrDeclaredNames, List<String> arrParent, List<String> arrOrder, List<String> arrFunctions, List<String> arrAllergens) {
+    private List<QuidUtils> getDeclared(List<String> arrDeclaredNames, List<String> arrParent, List<String> arrOrder, List<String> arrFunctions, List<String> arrAllergens) {
 
-        List<Quid> declared = new ArrayList<Quid>();
+        List<QuidUtils> declared = new ArrayList<QuidUtils>();
 
         for (int i = 0; i < arrDeclaredNames.size(); i++) {
 
-            declared.add(new Quid(arrDeclaredNames.get(i), arrParent.get(i), arrOrder.get(i), arrFunctions.get(i), arrAllergens.get(i)));
+            declared.add(new QuidUtils(arrDeclaredNames.get(i), arrParent.get(i), arrOrder.get(i), arrFunctions.get(i), arrAllergens.get(i)));
 
         }
         return declared;
     }
 
-    private void checkCurrentCompound(Quid currentCompound, Quid productCompound) {
+    private void checkCurrentCompound(QuidUtils currentCompound, QuidUtils productCompound) {
 
         if (!(currentCompound == null) && !(productCompound == null)) {
 
@@ -438,5 +524,110 @@ public class QuidController extends AbstractController {
 
     }
 
+
+    private String listToString(List<String> list) {
+
+        StringBuilder sb = new StringBuilder();
+        for (String s : list) {
+            sb.append(s);
+            sb.append(",");
+        }
+
+        return String.valueOf(sb);
+    }
+
+    /* process Allergens*/
+
+    private String[] splitIngredient(String ingredient) {
+
+        if (ingredient.equalsIgnoreCase("Sulphur Dioxide")) {
+
+            return new String[]{"Sulphur Dioxide"};
+        } else
+
+            return ingredient.split(" ");
+
+    }
+
+    private int getAllergenPosition(String allergen) {
+
+        int pos = -1;
+
+        for (int i = 0; i < WebappConstants.allergens.length; i++)
+            if (WebappConstants.allergens[i].equals(allergen))
+
+                pos = i;
+
+
+        return pos;
+    }
+
+    private String arrayToString(String[] split) {
+
+        String s = "";
+
+        for (int i = 0; i < split.length; i++) {
+
+            s += split[i] + " ";
+        }
+
+        return s;
+    }
+
+    private boolean containsAllergenName(String ingredient, String[] compare) {
+
+        boolean res = false;
+
+        for (int i = 0; i < compare.length; i++) {
+
+            if (ingredient.toLowerCase().contains(compare[i].toLowerCase())) {
+                res = true;
+
+            }
+
+        }
+        return res;
+    }
+
+    private void addAllergen(String ingredient, String allergen) {
+
+
+        boolean bold = false;
+
+
+        if (!allergen.equals("N/A")) {
+
+            int pos = getAllergenPosition(allergen);
+
+            String[] split = splitIngredient(ingredient);
+
+            //must be if contains
+            if (containsAllergenName(ingredient, WebappConstants.allergens_compare[pos])) {
+
+                for (int i = 0; i < split.length; i++) {
+
+                    for (int j = 0; j < WebappConstants.allergens_compare[pos].length; j++) {
+
+                        if (split[i].startsWith(WebappConstants.allergens_compare[pos][j])) {
+
+                            split[i] = "<b>" + split[i] + "</b>";
+
+                        }
+                    }
+
+                }
+                declaration += arrayToString(split) + ",";
+
+            } else {
+
+                declaration += " " + ingredient + "(<b>" + WebappConstants.allergens_shorts[pos] + "</b>)" + ",";
+            }
+
+        } else {
+
+            declaration += " " + ingredient + ",";
+        }
+
+    }
 
 }

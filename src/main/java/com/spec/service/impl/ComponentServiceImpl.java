@@ -77,8 +77,8 @@ public class ComponentServiceImpl implements ComponentService {
         return dao.findById(id);
     }
 
-    public List<Component> findAll() {
-        return dao.findAll();
+    public List<Component> findAllASC() {
+        return dao.findAllASC();
     }
 
     public List<Component> findByName(String name) {
@@ -105,5 +105,6 @@ public class ComponentServiceImpl implements ComponentService {
 
         return list;
     }
+
 
 }

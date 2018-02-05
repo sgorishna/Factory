@@ -24,7 +24,7 @@
                 <thead>
                 <tr class = "info">
 
-                    <th><fmt:message key="PRODUCT_NAME" /></th>
+                    <th onclick="sortTableCompoundsAndProducts(0)" style="cursor: pointer"><fmt:message key="PRODUCT_NAME" /><span style="float:right;"> &uarr;&darr;</span></th>
                     <th><fmt:message key="PRODUCT_CODE" /></th>
                     <th><fmt:message key="LEGAL_NAME" /></th>
 

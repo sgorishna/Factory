@@ -19,7 +19,7 @@ public interface ComponentService {
 
     Component findById(int id);
 
-    List<Component> findAll();
+    List<Component> findAllASC();
 
     List<Component> findByName(String name);
 

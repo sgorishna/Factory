@@ -2,6 +2,7 @@ package com.spec.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,6 +62,11 @@ public abstract class AbstractGenericDao<E> implements GenericDao<E> {
     @Transactional
     public List<E> findAll() {
         return getSession().createCriteria(this.entityClass).list();
+    }
+
+    @Transactional
+    public List<E> findAllASC() {
+        return getSession().createCriteria(this.entityClass).addOrder( Order.asc("name") ).list();
     }
 
 @Transactional

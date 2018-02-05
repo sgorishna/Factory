@@ -1,20 +1,33 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page isELIgnored="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Home</title>
+
+    <script src="../resources/js/tinymce/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
+
+    <%--<link rel="stylesheet" href="../resources/css/wysiwyg-color.css"/>--%>
+    <%--<link rel="stylesheet" href="../resources/css/bootstrap-wysihtml5.css"/>--%>
     <style>
-        <!-- Bootstrap core CSS -->
+        <!--
+        Bootstrap core CSS
+
+        -->
 
         <%@include file="/resources/css/bootstrap.css" %>
         <%@include file="/resources/css/dashboard.css" %>
 
     </style>
+
+
+
+
 
     <script type="text/javascript">
         <%@include file="/resources/js/quid.js" %>
@@ -23,6 +36,8 @@
         csrfParameter = '${_csrf.parameterName}';
         csrfToken = '${_csrf.token}';
     </script>
+    
+
 
 </head>
 <body>
@@ -51,22 +66,21 @@
             <ul class="nav nav-sidebar">
 
 
-
-                <li >
+                <li>
                     <a href="${CONTEXT}/home">Home <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
 
             <ul class="nav nav-sidebar">
-                <li >
+                <li>
                     <a href="${CONTEXT}/products">Products <span class="sr-only">(current)</span></a>
                 </li>
 
-                <li >
+                <li>
                     <a href="${CONTEXT}/compounds">Compounds</a>
                 </li>
 
-                <li >
+                <li>
                     <a href="${CONTEXT}/components">Components</a>
                 </li>
             </ul>
@@ -75,20 +89,22 @@
 
 
                 <li>
-                    <a href="${CONTEXT}/exceptions" class = "styleone"><fmt:message key="EXCEPTIONS" /> <span class="sr-only">(current)</span></a>
+                    <a href="${CONTEXT}/exceptions" class="styleone"><fmt:message key="EXCEPTIONS"/> <span
+                            class="sr-only">(current)</span></a>
                 </li>
             </ul>
 
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h2 class="sub-header" >${product} </h2>
+            <h2 class="sub-header">${product} </h2>
 
             <jsp:include page="../modules/product/moduleSuccess.jsp"></jsp:include>
         </div>
 
     </div>
 </div>
+
 
 </body>
 </html>

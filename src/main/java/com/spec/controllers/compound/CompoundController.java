@@ -36,7 +36,7 @@ public class CompoundController extends AbstractController {
     public String compounds(Model model) {
 
 
-        model.addAttribute("compounds", compoundService.findAll());
+        model.addAttribute("compounds", compoundService.findAllASC());
         return "compound/compoundList";
 
     }
@@ -118,15 +118,16 @@ public class CompoundController extends AbstractController {
     @RequestMapping(value = "/checkCompoundCode", method = RequestMethod.GET)
     public String checkCompoundCode(@RequestParam(value = "code") String code, Model model) {
 
+        if(!code.equals("")) {
 
-        if (!compoundService.findByCode(code).isEmpty()) {
+            if (!compoundService.findByCode(code).isEmpty()) {
 
-            model.addAttribute("taken", "Code already exists in system");
-        } else {
-            model.addAttribute("available", "Available");
+                model.addAttribute("taken", "Code already exists in system");
+            } else {
+                model.addAttribute("available", "Available");
+            }
+
         }
-
-
         return "compound/checkCode";
 
     }

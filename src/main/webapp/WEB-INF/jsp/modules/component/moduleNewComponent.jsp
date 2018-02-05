@@ -19,7 +19,7 @@
 
  <form:label path = "code" class="control-label" ><fmt:message key="COMPONENT_CODE" /></form:label>
  &nbsp<span id="checkCode"> </span>
- <form:input path = "code" id ="code" type="number" step="any" min="0" max="99999999" class="form-control"  placeholder="Input code" onkeyup="checkComponentCode()" />
+ <form:input path = "code" id ="code" type="text"  class="form-control"  placeholder="Input code" onkeyup="checkComponentCode()" />
 
  <form:label path = "name" class="control-label" ><fmt:message key="COMPONENT_NAME" /></form:label>
  &nbsp<span id="checkName"> </span>

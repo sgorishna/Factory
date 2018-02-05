@@ -25,6 +25,10 @@ public class Result {
 
     private String total = "";
 
+    private String totalSalt = "";
+
+    private String totalWater = "";
+
     private boolean checked;
 
     private String allergen;

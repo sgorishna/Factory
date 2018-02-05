@@ -27,6 +27,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.spri
                 <value>com.spec.model.Users</value>
                 <value>com.spec.model.CategoryComponent</value>
                 <value>com.spec.model.Category</value>
+                <value>com.spec.model.Quid</value>
 
 
             </list>

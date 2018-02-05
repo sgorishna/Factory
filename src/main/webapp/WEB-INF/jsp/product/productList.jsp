@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Register new customer</title>
     <style>
         <!--
@@ -31,6 +31,7 @@
         <%@include file="/resources/js/jquery-ui.js" %>
         <%@include file="/resources/js/tableSearch.js" %>
         <%@include file="/resources/js/actions.js" %>
+        <%@include file="/resources/js/tableSort.js" %>
     </script>
 
 </head>

@@ -35,7 +35,7 @@ public class LoginController {
     //Spring Security see this :
     @RequestMapping(value = {"/", "/login"}, method = RequestMethod.GET)
     public String login(
-            @ModelAttribute("j_username") String username, HttpServletRequest request) {
+            @ModelAttribute("j_username") String username) {
 
        /* Users u = userService.findByLogin(username).get(0);
 
@@ -62,10 +62,10 @@ public class LoginController {
         return "user/home";
     }
 
-    @RequestMapping(value = "/logout", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/logout", method = {RequestMethod.POST})
     public String logout() {
 
-        return "redirect:login";
+        return "login";
     }
 
     @RequestMapping("/invalidCredentials")

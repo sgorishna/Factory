@@ -19,7 +19,7 @@ public interface ProductService {
 
     Product findById(int id);
 
-    List<Product> findAll();
+    List<Product> findAllASC();
 
     List<Product> findByName(String name);
 

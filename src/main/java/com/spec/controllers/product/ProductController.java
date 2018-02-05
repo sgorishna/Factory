@@ -33,7 +33,7 @@ public class ProductController extends AbstractController {
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     public String products(Model model){
 
-        model.addAttribute("products",productService.findAll());
+        model.addAttribute("products",productService.findAllASC());
         return "product/productList";
 
     }
@@ -140,14 +140,15 @@ productService.save(product);
     @RequestMapping(value = "/checkProductCode", method = RequestMethod.GET)
     public String checkProductCode(@RequestParam(value = "code") String code, Model model) {
 
+        if(!code.equals("")) {
 
-        if (!productService.findByCode(code).isEmpty()) {
+            if (!productService.findByCode(code).isEmpty()) {
 
-            model.addAttribute("taken", "Code already exists in system");
-        } else {
-            model.addAttribute("available", "Available");
+                model.addAttribute("taken", "Code already exists in system");
+            } else {
+                model.addAttribute("available", "Available");
+            }
         }
-
 
         return "product/checkCode";
 

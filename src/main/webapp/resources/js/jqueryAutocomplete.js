@@ -8,6 +8,15 @@ function getContextPath() {
 $(document).ready(function() {
     $("input#componentName").autocomplete({
 
+        change: function(event,ui)
+        {
+            if (ui.item==null)
+            {
+                $("#componentName").val('');
+                $("#componentName").focus();
+            }
+        },
+
         source: function(request, response) {
             $.ajax({
                 // basePath is used for defining contecxt-path of the url.
@@ -18,6 +27,8 @@ $(document).ready(function() {
                     term : request.term
 
                 },
+
+
                 /*
                  A Success function to be called if the request succeeds.The function gets
                  passed two arguments-
@@ -47,6 +58,15 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $("input#compoundName").autocomplete({
+
+        change: function(event,ui)
+        {
+            if (ui.item==null)
+            {
+                $("#compoundName").val('');
+                $("#compoundName").focus();
+            }
+        },
 
         source: function(request, response) {
             $.ajax({

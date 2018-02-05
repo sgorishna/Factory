@@ -57,6 +57,70 @@ public class Total {
 
     }
 
+    public String brineTotal(String ingredient, List<Result> results){
+
+        String total ="0.0";
+
+        String productName = results.get(0).getParent();
+
+        String parentBrineOrder="";
+
+        for (Result res : results) {
+
+            if(!parentBrine(res, productName).equals("")) {
+
+                parentBrineOrder = parentBrine(res, productName);
+            }
+
+             if(res.isComponent() && res.getPosition().startsWith(parentBrineOrder)){
+
+                 if(res.getName().toLowerCase().equals(ingredient)){
+
+                     total = parse(total, res.getMixBowlPercentage());
+
+                 }
+             }
+
+        }
+
+        return total;
+    }
+
+    private String parentBrine(Result res, String productName){
+
+        String brineOrder = "";
+
+        if(res.getParent().equals(productName) && !res.getPosition().equals("1")){
+
+            if(!res.isComponent() && res.getName().toLowerCase().contains("brine")) {
+
+                brineOrder = res.getPosition();
+
+            }
+        }
+return brineOrder;
+    }
+
+    public void totalForSalt(Result next, Result current, String mixBowl) {
+
+        if (next.getName().equalsIgnoreCase("salt")) {
+
+            current.setTotalSalt(parse(current.getTotal(), mixBowl));
+
+        }
+
+    }
+
+    public void totalForWater(Result next, Result current, String mixBowl) {
+
+        if (next.getName().equalsIgnoreCase("water")) {
+
+            current.setTotalWater(parse(current.getTotal(), mixBowl));
+
+        }
+
+    }
+
 
     private void compare(List<Result> results, Result result) {
 
@@ -68,7 +132,8 @@ public class Total {
 
                 if (res.isChecked() == false) {
 
-
+                    totalForSalt(res,result, res.getMixBowlPercentage());
+                    totalForWater(res,result, res.getMixBowlPercentage());
                     result.setTotal(parse(result.getTotal(), res.getMixBowlPercentage()));
 
                     res.setChecked(true);
@@ -89,7 +154,8 @@ public class Total {
 
                 if (res.isChecked() == false) {
 
-
+                    totalForSalt(res,result, res.getMixBowlPercentage());
+                    totalForWater(res,result, res.getMixBowlPercentage());
                     result.setTotal(parse(result.getTotal(), res.getMixBowlPercentage()));
 
 
@@ -124,7 +190,11 @@ public class Total {
 
                 if (res.isChecked() == false) {
 
+                    totalForSalt(res,result, res.getMixBowlPercentage());
+                    totalForWater(res,result, res.getMixBowlPercentage());
+
                     if (checkCategoryComponent(result.getName(), res.getName()) == false) {
+
 
                         result.setTotal(parse(result.getTotal(), res.getMixBowlPercentage()));
 

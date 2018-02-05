@@ -1,27 +1,37 @@
+var PARENT_COL_NUM = 0;
+var ORDER_COL_NUM = 1;
+var INGREDIENT_COL_NUM = 2;
+var PERCENT_COL_NUM = 4;
+var QUID_COL_NUM = 8;
+var DECLARATION_COL_NUM = 9;
+var ALLERGEN_COL_NUM = 10;
+var FUNCTION_COL_NUM = 11;
+
 var quidBoxes = [];
-var allPerc = [];
+var percColumn = [];
 var arrNames = [];
 var arrPerc = [];
+var quidOrder = [];
 var declarationBoxes = [];
-var allParent = [];
+var parentColumn = [];
 
-var allOrder = [];
+var orderColumn = [];
 var arrOrder = [];
 
 var arrDeclaredNames = [];
 var arrParent = [];
 
-var allAllergens = [];
+var allergenColumn = [];
 var arrAllergens = [];
 
-var allFunctions = [];
+var functionColumn = [];
 var arrFunctions = [];
 
 
-var allQuid = [];
+var quidColumn = [];
 
 
-var allDeclared = [];
+var declaredColumn = [];
 
 
 var productName;
@@ -84,49 +94,46 @@ function getColData(colNumber) {
     return res;
 }
 
-function getAllQuid(){
+function getAllQuid() {
 
-    var boxes = getBoxes(6);
-
-    for (var i = 0; i < boxes.length; i++) {
-
-        if (boxes[i] != null && boxes[i].checked) {
-
-            allQuid.push("Yes");
-
-        } else{
-
-            allQuid.push("");
-        }
-    }
-
-
-
-}
-
-function getAllDecalaration(){
-
-    var boxes = getBoxes(7);
+    var boxes = getBoxes(QUID_COL_NUM);
 
     for (var i = 0; i < boxes.length; i++) {
 
         if (boxes[i] != null && boxes[i].checked) {
 
-            allDeclared.push("Yes");
+            quidColumn.push("Yes");
 
-        } else{
+        } else {
 
-            allDeclared.push("");
+            quidColumn.push("");
         }
     }
 
+
+}
+
+function getAllDecalaration() {
+
+    var boxes = getBoxes(DECLARATION_COL_NUM);
+
+    for (var i = 0; i < boxes.length; i++) {
+
+        if (boxes[i] != null && boxes[i].checked) {
+
+            declaredColumn.push("Yes");
+
+        } else {
+
+            declaredColumn.push("");
+        }
+    }
 
 
 }
 
 
-
-function getQuidNamesAndPerc(quidBoxes, allPerc, arrNames, arrPerc) {
+function getQuidNamesAndPerc(quidBoxes, allPerc, arrNames, arrPerc, quidOrder, arrOrder) {
 
 
     for (var i = 0; i < quidBoxes.length; i++) {
@@ -136,6 +143,8 @@ function getQuidNamesAndPerc(quidBoxes, allPerc, arrNames, arrPerc) {
             arrNames.push(quidBoxes[i].name);
 
             arrPerc.push(allPerc[i]);
+
+            quidOrder.push(arrOrder[i]);
         }
 
     }
@@ -158,7 +167,7 @@ function getDeclarationData(declarationBoxes, allParent, arrDeclaredNames, arrPa
             arrAllergens.push(allAllergens[i]);
 
             arrFunctions.push(allFunctions[i]);
-
+//
 
         }
 
@@ -192,13 +201,7 @@ function getAllAllergens(colNumber) {
 
         var objCells = myTable.rows.item(i).cells;
 
-        if (objCells[colNumber].firstElementChild != null) {
-
-            res.push(objCells[colNumber].firstElementChild.options[objCells[colNumber].firstElementChild.selectedIndex].text);
-        } else {
-            res.push(objCells[colNumber].innerText);
-
-        }
+        res.push(objCells[colNumber].firstElementChild.options[objCells[colNumber].firstElementChild.selectedIndex].text);
 
 
     }
@@ -209,29 +212,30 @@ function getAllAllergens(colNumber) {
 function clearArrays() {
 
     quidBoxes = [];
-    allPerc = [];
+    percColumn = [];
     arrNames = [];
     arrPerc = [];
+    quidOrder = [];
     declarationBoxes = [];
-    allParent = [];
+    parentColumn = [];
 
-    allOrder = [];
+    orderColumn = [];
     arrOrder = [];
 
     arrDeclaredNames = [];
     arrParent = [];
 
-    allFunctions = [];
+    functionColumn = [];
     arrFunctions = [];
 
-    allAllergens = [];
+    allergenColumn = [];
     arrAllergens = [];
 
 
-    allQuid = [];
+    quidColumn = [];
 
 
-    allDeclared = [];
+    declaredColumn = [];
 
 
     productName = "";
@@ -242,25 +246,30 @@ function clearArrays() {
 function initData() {
     clearArrays();
 
-    quidBoxes = getBoxes(6);
-    declarationBoxes = getBoxes(7);
-    allPerc = getInnerColData(4);
-    allParent = getInnerColData(0);
+    console.log(QUID_COL_NUM);
+    console.log(ALLERGEN_COL_NUM);
 
-    allOrder = getInnerColData(1);
+    quidBoxes = getBoxes(QUID_COL_NUM);
 
-    allAllergens = getAllAllergens(8);
 
-    allFunctions = getAllFunctions(9);
+    declarationBoxes = getBoxes(DECLARATION_COL_NUM);
+    percColumn = getInnerColData(PERCENT_COL_NUM);
+    parentColumn = getInnerColData(PARENT_COL_NUM);
+
+    orderColumn = getInnerColData(ORDER_COL_NUM);
+
+    allergenColumn = getAllAllergens(ALLERGEN_COL_NUM);
+
+    functionColumn = getAllFunctions(FUNCTION_COL_NUM);
 
     productName = getInnerColData(0)[0];
 
-     getAllQuid();
+    getAllQuid();
 
-     getAllDecalaration();
+    getAllDecalaration();
 
-    getQuidNamesAndPerc(quidBoxes, allPerc, arrNames, arrPerc);
-    getDeclarationData(declarationBoxes, allParent, arrDeclaredNames, arrParent, allOrder, arrOrder, allFunctions, arrFunctions, allAllergens, arrAllergens);
+    getQuidNamesAndPerc(quidBoxes, percColumn, arrNames, arrPerc, quidOrder, orderColumn);
+    getDeclarationData(declarationBoxes, parentColumn, arrDeclaredNames, arrParent, orderColumn, arrOrder, functionColumn, arrFunctions, allergenColumn, arrAllergens);
 
 
 }
@@ -283,15 +292,16 @@ function getQD() {
         "productName": productName,
         "arrQuidNames": arrNames,
         "arrQuidPerc": arrPerc,
+        "arrQuidOrder": quidOrder,
         "arrDeclaredNames": arrDeclaredNames,
         "arrParent": arrParent,
         "arrOrder": arrOrder,
         "arrAllergens": arrAllergens,
         "arrFunctions": arrFunctions,
-        "allQuid": allQuid,
-        "allDeclared": allDeclared,
-        "allAllergens": allAllergens,
-        "allFunctions": allFunctions
+        "quidColumn": quidColumn,
+        "declaredColumn": declaredColumn,
+        "allergenColumn": allergenColumn,
+        "functionColumn": functionColumn
     };
     quidData['parentId'] = 1;
     quidData[csrfParameter] = csrfToken;
@@ -306,12 +316,26 @@ function getQD() {
 
         success: function (response) {
             document.getElementById('qd').innerHTML = response;
+            copyDeclarationToTextarea();
         },
         error: function (e) {
             console.log('Error:', e);
             document.getElementById('qd').innerHTML = e;
+
         }
     });
+
+
+}
+
+function getDeclaredIngredientList(){
+
+    var data = getFrameContents().innerHTML;
+
+    document.getElementById("myinput").setAttribute('value', data);
+
+    document.getElementById("myinput1").setAttribute('value', data);
+
 
 
 }
@@ -320,26 +344,56 @@ function selectAllergen(selected) {
 
     var componentName = selected.value;
 
-    var selectedOption = selected.options[selected.selectedIndex].text;
 
-    var allerNames = getInnerColData(2);
+    var index = selected.selectedIndex;
 
-    var colData = getColData(8);
+
+    var allerNames = getInnerColData(INGREDIENT_COL_NUM);
+
+    var colData = getColData(ALLERGEN_COL_NUM);
 
 
     for (var i = 0; i < colData.length; i++) {
 
         if (allerNames[i] == componentName) {
 
-            if (colData[i].firstElementChild == null) {
 
-                colData[i].innerText = selectedOption;
-            }
+            colData[i].firstElementChild.selectedIndex = index;
+
         }
 
     }
 
 }
 
+function copyDeclarationToTextarea(){
+
+    var text = document.getElementById('qd').innerHTML;
+
+    var iFrame =  document.getElementsByTagName("iframe")[0];
+
+    var iFrameBody = getFrameContents();
+
+    iFrameBody.innerHTML = text;
+
+
+}
+
+
+function getFrameContents(){
+
+    var iFrame =  document.getElementsByTagName("iframe")[0];
+    var iFrameBody;
+    if ( iFrame.contentDocument )
+    { // FF
+        iFrameBody = iFrame.contentDocument.getElementsByTagName('body')[0];
+    }
+    else if ( iFrame.contentWindow )
+    { // IE
+        iFrameBody = iFrame.contentWindow.document.getElementsByTagName('body')[0];
+    }
+
+    return iFrameBody;
+}
 
 

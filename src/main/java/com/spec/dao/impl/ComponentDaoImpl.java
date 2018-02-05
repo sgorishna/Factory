@@ -34,4 +34,5 @@ public class ComponentDaoImpl extends AbstractGenericDao<com.spec.model.Componen
     }
 
 
+
 }

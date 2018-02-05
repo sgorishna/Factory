@@ -35,11 +35,14 @@ public class Init {
     final
     ProductCompoundService productCompoundService;
 
+    final
+    QuidService quidService;
+
 
     @Autowired
     public Init(ComponentService componentService, CompoundService compoundService,
                 ProductService productService, CompoundComponentService compoundComponentService, CompoundCompoundService compoundCompoundService,
-                ProductComponentService productComponentService, ProductCompoundService productCompoundService) {
+                ProductComponentService productComponentService, ProductCompoundService productCompoundService, QuidService quidService) {
         this.componentService = componentService;
         this.compoundService = compoundService;
         this.productService = productService;
@@ -49,5 +52,6 @@ public class Init {
         this.productCompoundService = productCompoundService;
 
 
+        this.quidService = quidService;
     }
 }

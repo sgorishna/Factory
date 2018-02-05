@@ -67,8 +67,8 @@ public class ProductServiceImpl implements ProductService {
         return productDao.findByCode(code);
     }
 
-    public List<Product> findAll() {
-        return productDao.findAll();
+    public List<Product> findAllASC() {
+        return productDao.findAllASC();
     }
 
     public List<Product> findByName(String name) {

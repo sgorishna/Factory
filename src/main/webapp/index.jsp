@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Insert title here</title>
 </head>
 <body>

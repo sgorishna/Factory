@@ -40,7 +40,7 @@ public class ComponentController extends AbstractController {
     public String components(Model model) {
 
 
-        model.addAttribute("components", componentService.findAll());
+        model.addAttribute("components", componentService.findAllASC());
         return "component/componentList";
 
     }
@@ -125,15 +125,16 @@ public class ComponentController extends AbstractController {
     @RequestMapping(value = "/checkComponentCode", method = RequestMethod.GET)
     public String checkComponentCode(@RequestParam(value = "code") String code, Model model) {
 
+        if(!code.equals("")) {
 
-        if (!componentService.findByCode(code).isEmpty()) {
+            if (!componentService.findByCode(code).isEmpty()) {
 
-            model.addAttribute("taken", "Code already exists in system");
-        } else {
-            model.addAttribute("available", "Available");
+                model.addAttribute("taken", "Code already exists in system");
+            } else {
+                model.addAttribute("available", "Available");
+            }
+
         }
-
-
         return "component/checkCode";
 
     }

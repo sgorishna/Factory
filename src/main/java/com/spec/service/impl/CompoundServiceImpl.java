@@ -111,8 +111,8 @@ public class CompoundServiceImpl implements CompoundService {
         return compoundDao.findById(id);
     }
 
-    public List<Compound> findAll() {
-        return compoundDao.findAll();
+    public List<Compound> findAllASC() {
+        return compoundDao.findAllASC();
     }
 
     public List<Compound> findByName(String name) {

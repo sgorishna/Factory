@@ -19,12 +19,12 @@
 
 
 
-            <table id="table" class="table table-bordered">
+            <table id="table" class="table table-bordered " >
 
                 <thead>
-                <tr class = "info">
+                <tr class = "info" >
 
-                    <th><fmt:message key="COMPONENT_NAME" /></th>
+                    <th onclick="sortTableComponents(0)" style="cursor: pointer"><fmt:message key="COMPONENT_NAME" /><span style="float:right;"> &uarr;&darr;</span></th>
 
                     <th><fmt:message key="COMPONENT_CODE" /></th>
 

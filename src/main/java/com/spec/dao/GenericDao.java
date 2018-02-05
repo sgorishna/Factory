@@ -16,6 +16,8 @@ public interface GenericDao<E> {
 
     List<E> findAll();
 
+    List<E> findAllASC();
+
     List<E> findByName(String name);
 
 }

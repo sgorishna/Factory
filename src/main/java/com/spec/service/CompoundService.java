@@ -19,7 +19,7 @@ public interface CompoundService {
 
     Compound findById(int id);
 
-    List<Compound> findAll();
+    List<Compound> findAllASC();
 
     List<Compound> findByName(String name);
 

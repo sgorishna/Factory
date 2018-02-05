@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Register new customer</title>
 
 
@@ -16,9 +16,11 @@
 
         <%@include file="/resources/css/dashboard.css" %>
 
+
+
     </style>
 
-
+    <%--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">--%>
     <script type="text/javascript">
 
         <%@include file="/resources/js/jquery-1.10.2.js" %>
@@ -26,7 +28,11 @@
         <%@include file="/resources/js/actions.js" %>
         <%@include file="/resources/js/tableSearch.js" %>
 
+        <%@include file="/resources/js/tableSort.js" %>
+
+
     </script>
+
 
 
 </head>

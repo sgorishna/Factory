@@ -7,6 +7,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <style>
         <%@include file="/resources/css/style.css" %>
         <%@include file="/resources/css/bootstrap.min.css" %>

@@ -14,15 +14,15 @@ import java.util.List;
  * Created by Svetik on 15/08/2017.
  */
 @Entity
-@Table(name="product")
+@Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Product implements Serializable {
 
     @Id
-    @Column(name="id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
 
@@ -40,7 +40,8 @@ public class Product implements Serializable {
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<ProductComponent> componentsListByIdProduct;
 
-    public Product(String name){
+
+    public Product(String name) {
 
         this.name = name;
     }
